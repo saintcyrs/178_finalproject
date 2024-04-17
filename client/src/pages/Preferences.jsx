@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocation } from 'react-router-dom';
 import './Preferences.css';
 
-const sources = {
+const news_sources = {
     politics: [
         { name: 'CNN', logo: '/img/cnn.png' },
         { name: 'Fox', logo: '/img/fox.png' },
@@ -16,10 +16,13 @@ const sources = {
   };
 
 export default function Preferences() {
-    const location = useLocation();
+    //const location = useLocation();
     
-    const selectedTopic = location.state?.selectedTopic || '';
-    const sources = NEWS_SOURCES[selectedTopic] || [];
+    //const selectedTopic = location.state?.selectedTopic || '';
+    //const sources = NEWS_SOURCES[selectedTopic] || [];
+
+    const selectedTopic = 'politics';
+    const sources = news_sources[selectedTopic];
   
     const handleNewsSourceClick = (source) => {
         console.log('News source clicked:', source);
