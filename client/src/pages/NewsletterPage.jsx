@@ -1,6 +1,6 @@
 import * as React from "react";
 import MyAppBar from "../components/AppBar/MyAppBar";
-import NewsCard from "../components/NewsCard/NewsCard";
+import NewsContainer from "../components/NewsContainer/NewsContainer";
 import { Grid, Container, Typography } from "@mui/material";
 
 // Mock data for the news items
@@ -64,11 +64,12 @@ export default function NewsletterPage() {
             <Grid container spacing={4}>
               {section.articles.map((article) => (
                 <Grid item xs={12} md={6} lg={4} key={article.id}>
-                  <NewsCard
+                  <NewsContainer
                     title={article.headline}
                     summary={article.summary}
                     source={article.sourceName}
                     sourceUrl={article.sourceUrl}
+                    imageUrl={article.imageUrl}
                   />
                 </Grid>
               ))}

@@ -1,5 +1,12 @@
 const express = require("express");
+const cors = require("cors");
+
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Only allow this origin to access your backend
+  })
+);
 const port = 3001;
 
 // Root route
@@ -7,9 +14,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to the server!");
 });
 
-// Other routes can be added below
-// Example: Adding a scrape route
-const scrapeHeadline = require("./scraper");
+const scrapeHeadline = require("./scraper/scraper");
+console.log(scrapeHeadline);
 app.get("/scrape", async (req, res) => {
   try {
     const data = await scrapeHeadline("https://www.hollywoodreporter.com/"); // Make sure this URL is correct and active
