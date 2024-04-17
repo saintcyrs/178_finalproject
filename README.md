@@ -30,7 +30,7 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### BE SURE TO INSTALL MATERIAL-UI
-npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/material @emotion/react @emotion/styled \
 npm install @mui/icons-material
 
 ### `npm run eject`
@@ -73,6 +73,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 =======
-# 178_finalproject
-CS178 Final Project
->>>>>>> 311d1fdf02fd4d78ef02d53336f76f981e5cf8c8
