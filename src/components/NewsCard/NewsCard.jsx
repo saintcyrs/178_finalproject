@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Card,
   CardContent,
@@ -7,7 +6,7 @@ import {
   Button,
 } from "@mui/material";
 
-export default function NewsCard({ title, summary, source }) {
+export default function NewsCard({ title, summary, source, sourceUrl }) {
   return (
     <Card>
       <CardContent>
@@ -17,7 +16,9 @@ export default function NewsCard({ title, summary, source }) {
         <Typography color="textSecondary">{summary}</Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">{source}</Button>
+        <Button size="small" href={sourceUrl} target="_blank">
+          {source}
+        </Button>
       </CardActions>
     </Card>
   );

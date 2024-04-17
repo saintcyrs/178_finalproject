@@ -3,12 +3,39 @@ import MyAppBar from "../components/AppBar/MyAppBar";
 import NewsCard from "../components/NewsCard/NewsCard";
 import { Grid, Container, Typography } from "@mui/material";
 
+// Mock data for the news items
+const sections = [
+  {
+    title: "Entertainment",
+    articles: [
+      {
+        id: 1,
+        headline: "Sed ut perspiciatis",
+        summary:
+          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+        sourceName: "The Hollywood Reporter",
+        sourceUrl: "https://www.hollywoodreporter.com",
+      },
+      // ... more articles
+    ],
+  },
+  {
+    title: "2024 Presidential Election",
+    articles: [
+      {
+        id: 2,
+        headline: "Sed ut perspiciatis",
+        summary:
+          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+        sourceName: "The New York Times",
+        sourceUrl: "https://www.nytimes.com",
+      },
+      // ... more articles
+    ],
+  },
+  // ... more sections
+];
 export default function NewsletterPage() {
-  // Mock data for the news items
-  const newsItems = [
-    //... populate with your data
-  ];
-
   return (
     <>
       <MyAppBar />
@@ -16,14 +43,26 @@ export default function NewsletterPage() {
         <Typography variant="h3" gutterBottom>
           Good morning, Soleil. Today is Friday, April 12.
         </Typography>
-        {/* Layout your Grid here */}
-        <Grid container spacing={4}>
-          {newsItems.map((news, index) => (
-            <Grid item key={index} xs={12} md={6}>
-              <NewsCard {...news} />
+        {sections.map((section, index) => (
+          <div key={index}>
+            <Typography variant="h4" gutterBottom>
+              {section.title}
+            </Typography>
+            <Grid container spacing={4}>
+              {section.articles.map((article) => (
+                <Grid item xs={12} md={6} lg={4} key={article.id}>
+                  <NewsCard
+                    title={article.headline}
+                    summary={article.summary}
+                    source={article.sourceName}
+                    sourceUrl={article.sourceUrl}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </div>
+        ))}
+        {/* ... */}
       </Container>
     </>
   );
