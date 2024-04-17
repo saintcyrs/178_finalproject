@@ -14,11 +14,28 @@ app.get("/", (req, res) => {
   res.send("Welcome to the server!");
 });
 
-const scrapeHeadline = require("./scraper/scraper");
-console.log(scrapeHeadline);
-app.get("/scrape", async (req, res) => {
+const {
+  scrapeHollywoodReporterHeadline,
+  scrapeDeadlineFirstHeadline,
+} = require("./scraper/scraper");
+console.log(scrapeHollywoodReporterHeadline);
+app.get("/scrape-hollywood", async (req, res) => {
   try {
-    const data = await scrapeHeadline("https://www.hollywoodreporter.com/"); // Make sure this URL is correct and active
+    const data = await scrapeHollywoodReporterHeadline(
+      "https://www.hollywoodreporter.com/"
+    ); // Make sure this URL is correct and active
+    res.json(data);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error scraping data", error: error.toString() });
+  }
+});
+
+// Scraper for Deadline
+app.get("/scrape-deadline", async (req, res) => {
+  try {
+    const data = await scrapeDeadlineFirstHeadline("https://www.deadline.com/"); // Make sure this URL is correct and active
     res.json(data);
   } catch (error) {
     res

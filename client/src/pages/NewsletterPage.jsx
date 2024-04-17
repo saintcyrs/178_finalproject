@@ -6,7 +6,7 @@ import { Grid, Container, Typography } from "@mui/material";
 // Mock data for the news items
 const sections = [
   {
-    title: "Entertainment",
+    title: "Top Articles in Entertainment",
     articles: [
       {
         id: 1,
@@ -19,21 +19,6 @@ const sections = [
       // ... more articles
     ],
   },
-  {
-    title: "2024 Presidential Election",
-    articles: [
-      {
-        id: 2,
-        headline: "Sed ut perspiciatis",
-        summary:
-          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-        sourceName: "The New York Times",
-        sourceUrl: "https://www.nytimes.com",
-      },
-      // ... more articles
-    ],
-  },
-  // ... more sections
 ];
 function formatDate() {
   const options = {
@@ -67,7 +52,7 @@ export default function NewsletterPage() {
                   <NewsContainer
                     title={article.headline}
                     summary={article.summary}
-                    source={article.sourceName}
+                    source={article.source}
                     sourceUrl={article.sourceUrl}
                     imageUrl={article.imageUrl}
                   />

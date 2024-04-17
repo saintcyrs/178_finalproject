@@ -1,7 +1,44 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const scrapeHeadline = async (url) => {
+// Scraper for Deadline
+const scrapeDeadlineFirstHeadline = async (url) => {
+  try {
+    // Fetch the webpage content
+    const response = await axios.get(url);
+    const data = response.data;
+
+    // Load the webpage content into Cheerio
+    const $ = cheerio.load(data);
+
+    const source = "Deadline";
+    const firstOCard = $(
+      ".trending-now .a-scrollable-grid\\@desktop-max > [data-slider-item]"
+    ).first();
+    let headline = firstOCard.find("h3.c-title").text().trim();
+    headline = headline
+      .replace(/^\d+\s*/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const link = firstOCard.find("a").attr("href");
+    const imageUrl =
+      firstOCard.find("img.c-figure__image").attr("src") ||
+      firstOCard.find("img.c-figure__image").attr("data-lazy-src");
+
+    // Return the extracted data
+    return {
+      source,
+      headline,
+      link,
+      imageUrl,
+    };
+  } catch (error) {
+    console.error("Failed to scrape:", error);
+    throw error; // Re-throw the error or handle it as needed
+  }
+};
+// Scraper for HollywoodReporter
+const scrapeHollywoodReporterHeadline = async (url) => {
   try {
     // Fetch the webpage content
     const response = await axios.get(url);
@@ -16,6 +53,7 @@ const scrapeHeadline = async (url) => {
     );
 
     // Extract the headline text and the link
+    const source = "The Hollywood Reporter";
     const headline = headlineElement.text().trim();
     const link = headlineElement.attr("href");
     // Selector for the image based on the provided div and class attributes
@@ -25,6 +63,7 @@ const scrapeHeadline = async (url) => {
 
     // Return the extracted data
     return {
+      source,
       headline,
       link,
       imageUrl,
@@ -35,4 +74,7 @@ const scrapeHeadline = async (url) => {
   }
 };
 
-module.exports = scrapeHeadline;
+module.exports = {
+  scrapeHollywoodReporterHeadline,
+  scrapeDeadlineFirstHeadline,
+};

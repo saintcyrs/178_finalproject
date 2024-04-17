@@ -4,33 +4,41 @@ import { Box, Typography } from "@mui/material";
 import axios from "axios";
 
 function NewsContainer() {
-  const [article, setArticle] = useState(null); // State to hold the single article object
+  const [articles, setArticles] = useState([]); // State to hold multiple article objects
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/scrape")
-      .then((response) => {
-        console.log(response.data);
-        setArticle(response.data); // Set the article directly with the response object
+    const sources = [
+      "http://localhost:3001/scrape-hollywood",
+      "http://localhost:3001/scrape-deadline",
+    ];
+
+    // Fetch articles from all sources
+    Promise.all(sources.map((url) => axios.get(url)))
+      .then((responses) => {
+        // Map responses to extract data
+        const newArticles = responses.map((response) => response.data);
+        setArticles(newArticles);
       })
       .catch((error) => {
         console.error("Error fetching news:", error);
       });
   }, []);
 
-  // Conditional rendering to handle if the article is not yet loaded or if no article data is available
-  if (!article) return <Typography>No article data available.</Typography>;
+  if (articles.length === 0)
+    return <Typography>No article data available.</Typography>;
 
   return (
     <Box>
-      {/* Render a single NewsCard with the article data */}
-      <NewsCard
-        title={article.headline}
-        summary={"This will be AI generated :)"} // Assuming no summary is available from the object
-        source="The Hollywood Reporter" // Assuming a static source, adjust as needed
-        sourceUrl={article.link}
-        imageUrl={article.imageUrl} // Add the imageUrl prop with the article's image URL
-      />
+      {articles.map((article, index) => (
+        <NewsCard
+          key={index}
+          title={article.headline}
+          summary={"This summary will be AI generated :)"}
+          source={article.source} // Make sure your backend provides the 'source' or set it here
+          sourceUrl={article.link}
+          imageUrl={article.imageUrl}
+        />
+      ))}
     </Box>
   );
 }

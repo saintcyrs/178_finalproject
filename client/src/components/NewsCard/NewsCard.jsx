@@ -24,11 +24,9 @@ export default function NewsCard({
         alt="News image"
       />
       <CardContent>
-        {/* Display title only if it's provided, otherwise show a default message */}
         <Typography variant="h5" component="h2">
           {title || "No Title Available"}
         </Typography>
-        {/* Conditional rendering to check for summary content */}
         {summary ? (
           <Typography color="textSecondary">{summary}</Typography>
         ) : (
@@ -36,7 +34,6 @@ export default function NewsCard({
         )}
       </CardContent>
       <CardActions>
-        {/* Render the button only if a sourceUrl is provided */}
         {sourceUrl && (
           <Button
             size="small"
