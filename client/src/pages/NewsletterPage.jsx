@@ -44,6 +44,7 @@ function formatDate() {
   };
   return new Date().toLocaleDateString("en-US", options);
 }
+
 export default function NewsletterPage() {
   const todayDate = formatDate();
 

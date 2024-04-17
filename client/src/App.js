@@ -1,23 +1,9 @@
-// Import the NewsletterPage component
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NewsletterPage from "./pages/NewsletterPage";
 import Preferences from "./pages/Preferences";
-import SignUpForm from './pages/SignUpForm';
-import "./App.css"; // Assuming you want to keep this for global styles
-import InterestForm from './pages/InterestForm'; 
-
-/*
-function App() {
-  return (
-    <div className="App">
-      <SignUpForm />
-      <Preferences />
-      <NewsletterPage />
-    </div>
-  );
-} 
-*/
-
+import SignUpForm from "./pages/SignUpForm";
+import "./App.css";
+import InterestForm from "./pages/InterestForm";
 
 function App() {
   return (
