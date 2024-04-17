@@ -35,13 +35,25 @@ const sections = [
   },
   // ... more sections
 ];
+function formatDate() {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date().toLocaleDateString("en-US", options);
+}
 export default function NewsletterPage() {
+  const todayDate = formatDate();
+
   return (
     <>
       <MyAppBar />
       <Container maxWidth="lg">
         <Typography variant="h3" gutterBottom>
-          Good morning, Soleil. Today is Friday, April 12.
+          Good morning, Soleil. <br></br>
+          Today is {todayDate}.
         </Typography>
         {sections.map((section, index) => (
           <div key={index}>
