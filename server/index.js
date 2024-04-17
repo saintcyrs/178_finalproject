@@ -17,8 +17,20 @@ app.get("/", (req, res) => {
 const {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
+  scrapeVarietyHeadline,
 } = require("./scraper/scraper");
-console.log(scrapeHollywoodReporterHeadline);
+
+app.get("/scrape-variety", async (req, res) => {
+  try {
+    const data = await scrapeVarietyHeadline("https://www.variety.com/"); // Make sure this URL is correct and active
+    res.json(data);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error scraping data", error: error.toString() });
+  }
+});
+// Scraper for Hollywood Reporter
 app.get("/scrape-hollywood", async (req, res) => {
   try {
     const data = await scrapeHollywoodReporterHeadline(

@@ -1,5 +1,7 @@
 import * as React from "react";
 import MyAppBar from "../components/AppBar/MyAppBar";
+// TODO: Extract the user's name from SignUpForm
+// import SignUpForm from "./SignUpForm";
 import NewsContainer from "../components/NewsContainer/NewsContainer";
 import { Grid, Container, Typography } from "@mui/material";
 
@@ -41,6 +43,7 @@ export default function NewsletterPage() {
           Good morning, Soleil. <br></br>
           Today is {todayDate}.
         </Typography>
+        <br></br> <br></br>
         {sections.map((section, index) => (
           <div key={index}>
             <Typography variant="h4" gutterBottom>
@@ -61,7 +64,6 @@ export default function NewsletterPage() {
             </Grid>
           </div>
         ))}
-        {/* ... */}
       </Container>
     </>
   );

@@ -1,6 +1,38 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+// Scraper for Variety
+const scrapeVarietyHeadline = async (url) => {
+  try {
+    // Fetch the webpage content
+    const response = await axios.get(url);
+    const data = response.data;
+
+    // Load the webpage content into Cheerio
+    const $ = cheerio.load(data);
+
+    const source = "Variety";
+    // Extracting the image URL
+    const imageUrl = $("article.o-story img.c-lazy-image__img")
+      .first()
+      .attr("src");
+
+    const headline = $("article.o-story h3.c-title a").first().text().trim();
+
+    const link = $("article.o-story a.c-title__link").first().attr("href");
+
+    return {
+      source,
+      imageUrl,
+      headline,
+      link,
+    };
+  } catch (error) {
+    console.error("Failed to scrape:", error);
+    throw error; // Re-throw the error or handle it as needed
+  }
+};
+
 // Scraper for Deadline
 const scrapeDeadlineFirstHeadline = async (url) => {
   try {
@@ -37,6 +69,7 @@ const scrapeDeadlineFirstHeadline = async (url) => {
     throw error; // Re-throw the error or handle it as needed
   }
 };
+
 // Scraper for HollywoodReporter
 const scrapeHollywoodReporterHeadline = async (url) => {
   try {
@@ -77,4 +110,5 @@ const scrapeHollywoodReporterHeadline = async (url) => {
 module.exports = {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
+  scrapeVarietyHeadline,
 };

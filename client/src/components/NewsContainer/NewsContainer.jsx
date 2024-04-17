@@ -10,6 +10,7 @@ function NewsContainer() {
     const sources = [
       "http://localhost:3001/scrape-hollywood",
       "http://localhost:3001/scrape-deadline",
+      "http://localhost:3001/scrape-variety",
     ];
 
     // Fetch articles from all sources
