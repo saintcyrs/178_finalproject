@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -29,6 +28,10 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### BE SURE TO INSTALL MATERIAL-UI
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material
 
 ### `npm run eject`
 
