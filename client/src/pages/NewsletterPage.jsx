@@ -51,13 +51,13 @@ export default function NewsletterPage() {
             </Typography>
             <Grid container spacing={4}>
               {section.articles.map((article) => (
-                <Grid item xs={12} md={6} lg={4} key={article.id}>
+                <Grid item xs={12} sm={4} key={article.id}>
+                  {" "}
                   <NewsContainer
                     title={article.headline}
                     summary={article.summary}
-                    source={article.source}
+                    source={article.sourceName} // Make sure the property names match what NewsContainer expects
                     sourceUrl={article.sourceUrl}
-                    imageUrl={article.imageUrl}
                   />
                 </Grid>
               ))}
