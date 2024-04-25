@@ -24,7 +24,7 @@ export default function Preferences() {
   //const sources = NEWS_SOURCES[selectedTopic] || [];
 
   // TODO: Hard-coded in -- change based on previous selection
-  const selectedTopic = "politics";
+  const selectedTopic = "entertainment";
   const sources = news_sources[selectedTopic];
   const navigate = useNavigate();
   const [selectedSource, setSelectedSource] = React.useState(null);
