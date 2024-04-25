@@ -1,27 +1,60 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import MyAppBar from "../components/AppBar/MyAppBar";
-// TODO: Extract the user's name from SignUpForm
-// import SignUpForm from "./SignUpForm";
 import NewsContainer from "../components/NewsContainer/NewsContainer";
 import { Grid, Container, Typography } from "@mui/material";
 
-// Mock data for the news items
-const sections = [
-  {
-    title: "Top Articles in Entertainment",
-    articles: [
-      {
-        id: 1,
-        headline: "Sed ut perspiciatis",
-        summary:
-          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-        sourceName: "The Hollywood Reporter",
-        sourceUrl: "https://www.hollywoodreporter.com",
-      },
-      // ... more articles
-    ],
-  },
-];
+function NewsletterPage() {
+  const [selectedSources, setSelectedSources] = useState([]);
+
+  useEffect(() => {
+    // Retrieve the selected sources from local storage and ensure it's an array
+    const storedSources = localStorage.getItem("selectedSources");
+    const parsedSources = storedSources ? JSON.parse(storedSources) : [];
+    if (Array.isArray(parsedSources)) {
+      setSelectedSources(parsedSources);
+    } else {
+      console.error("selectedSources is not an array:", parsedSources);
+      // Handle the error appropriately
+      setSelectedSources([]); // Set to an empty array as fallback
+    }
+  }, []);
+
+  // Retrieve the user's first name from local storage
+  const storedUserInfoString = localStorage.getItem("userInfo");
+  const storedUserInfo = storedUserInfoString
+    ? JSON.parse(storedUserInfoString)
+    : null;
+  const firstName = storedUserInfo ? storedUserInfo["firstName"] : undefined;
+
+  const todayDate = formatDate();
+
+  return (
+    <>
+      <MyAppBar />
+      <Container maxWidth="lg">
+        <Typography variant="h3" gutterBottom>
+          Good morning, {firstName}.
+          <br />
+          Today is {todayDate}.
+        </Typography>
+        {selectedSources.length > 0 ? (
+          <Grid container spacing={2}>
+            {selectedSources.map((source, index) => (
+              <Grid item xs={12} sm={10} md={4} lg={3} key={index}>
+                <NewsContainer selectedSources={[source]} />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Typography variant="h5">
+            No sources selected. Please select your news sources in preferences.
+          </Typography>
+        )}
+      </Container>
+    </>
+  );
+}
+
 function formatDate() {
   const options = {
     weekday: "long",
@@ -32,39 +65,4 @@ function formatDate() {
   return new Date().toLocaleDateString("en-US", options);
 }
 
-export default function NewsletterPage() {
-  const todayDate = formatDate();
-
-  return (
-    <>
-      <MyAppBar />
-      <Container maxWidth="lg">
-        <Typography variant="h3" gutterBottom>
-          Good morning, Soleil. <br></br>
-          Today is {todayDate}.
-        </Typography>
-        <br></br> <br></br>
-        {sections.map((section, index) => (
-          <div key={index}>
-            <Typography variant="h4" gutterBottom>
-              {section.title}
-            </Typography>
-            <Grid container spacing={4}>
-              {section.articles.map((article) => (
-                <Grid item xs={12} md={6} lg={4} key={article.id}>
-                  <NewsContainer
-                    title={article.headline}
-                    summary={article.summary}
-                    source={article.source}
-                    sourceUrl={article.sourceUrl}
-                    imageUrl={article.imageUrl}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        ))}
-      </Container>
-    </>
-  );
-}
+export default NewsletterPage;
