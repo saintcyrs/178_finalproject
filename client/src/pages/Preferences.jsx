@@ -1,5 +1,4 @@
-import * as React from "react";
-//import { useLocation } from 'react-router-dom';
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";
 import "./Preferences.css";
@@ -18,23 +17,30 @@ const news_sources = {
 };
 
 export default function Preferences() {
-  //const location = useLocation();
-
-  //const selectedTopic = location.state?.selectedTopic || '';
-  //const sources = NEWS_SOURCES[selectedTopic] || [];
-
-  // TODO: Hard-coded in -- change based on previous selection
-  const selectedTopic = "entertainment";
-  const sources = news_sources[selectedTopic];
   const navigate = useNavigate();
-  const [selectedSource, setSelectedSource] = React.useState(null);
+  const storedInterestsJSON = localStorage.getItem("selectedInterests");
+  const storedInterests = storedInterestsJSON
+    ? JSON.parse(storedInterestsJSON)
+    : [];
+  const sources = storedInterests.flatMap(
+    (interest) => news_sources[interest] || []
+  );
+  const [selectedSource, setSelectedSource] = useState([]); // Initialize selectedSource as an empty array
 
+  // When source is clicked, add or remove it from selectedSource
   const handleNewsSourceClick = (source) => {
     console.log("News source clicked:", source);
-    setSelectedSource(source);
+    setSelectedSource((prevSelectedSource) => {
+      if (prevSelectedSource.includes(source)) {
+        return prevSelectedSource.filter((item) => item !== source);
+      } else {
+        return [...prevSelectedSource, source];
+      }
+    });
   };
 
   const handleContinue = () => {
+    localStorage.setItem("selectedSources", JSON.stringify(selectedSource));
     navigate("/newsletter");
   };
 
@@ -42,7 +48,16 @@ export default function Preferences() {
     <Box className="preferences-container">
       <h1>Hone your preferences:</h1>
       <Box className="selected-topic">
-        {selectedTopic && <h2>{selectedTopic}</h2>}
+        {storedInterests.length > 0 && (
+          <h2>
+            {storedInterests
+              .map(
+                (interest) =>
+                  interest.charAt(0).toUpperCase() + interest.slice(1)
+              )
+              .join(", ")}
+          </h2>
+        )}
       </Box>
       <Box className="search-bar">
         <input type="text" placeholder="Type or select a news source URL" />
@@ -54,10 +69,9 @@ export default function Preferences() {
             className="news-source"
             onClick={() => handleNewsSourceClick(source.name)}
             sx={{
-              border:
-                source.name === selectedSource
-                  ? "2px solid green"
-                  : "1px solid grey",
+              border: selectedSource.includes(source.name)
+                ? "2px solid green"
+                : "1px solid grey",
               padding: "10px",
               margin: "10px",
               cursor: "pointer",

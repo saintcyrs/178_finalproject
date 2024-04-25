@@ -8,7 +8,6 @@ import {
   CardActions,
   IconButton,
 } from "@mui/material";
-
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
@@ -32,7 +31,7 @@ export default function NewsCard({
     console.log(vote);
   };
   return (
-    <Card raised elevation={3} style={{ margin: 10 }}>
+    <Card raised elevation={3} style={{ margin: 8 }}>
       <CardActionArea
         href={sourceUrl}
         target="_blank"

@@ -4,6 +4,7 @@ import Preferences from "./pages/Preferences";
 import SignUpForm from "./pages/SignUpForm";
 import "./App.css";
 import InterestForm from "./pages/InterestForm";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
