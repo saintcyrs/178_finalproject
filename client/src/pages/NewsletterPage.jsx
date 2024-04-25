@@ -19,6 +19,13 @@ function NewsletterPage() {
     }
   }, []);
 
+  // Retrieve the user's first name from local storage
+  const storedUserInfoString = localStorage.getItem("userInfo");
+  const storedUserInfo = storedUserInfoString
+    ? JSON.parse(storedUserInfoString)
+    : null;
+  const firstName = storedUserInfo ? storedUserInfo["firstName"] : undefined;
+
   const todayDate = formatDate();
 
   return (
@@ -26,7 +33,7 @@ function NewsletterPage() {
       <MyAppBar />
       <Container maxWidth="lg">
         <Typography variant="h3" gutterBottom>
-          Good morning, Soleil.
+          Good morning, {firstName}.
           <br />
           Today is {todayDate}.
         </Typography>

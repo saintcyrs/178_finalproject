@@ -20,6 +20,10 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Export user information
+    console.log("userInfo", userInfo);
+    console.log("userInfo JSON", JSON.stringify(userInfo));
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
     navigate("/interests");
     // setLoading(true);
     // setError(null);
