@@ -5,6 +5,7 @@ import axios from "axios";
 
 function NewsContainer({ selectedSources }) {
   const [articles, setArticles] = useState([]);
+  console.log('Selected sources:', selectedSources);
 
   useEffect(() => {
     // Map your sources to your scraping endpoints
@@ -12,13 +13,15 @@ function NewsContainer({ selectedSources }) {
       "The Hollywood Reporter": "http://localhost:3001/scrape-hollywood",
       Deadline: "http://localhost:3001/scrape-deadline",
       Variety: "http://localhost:3001/scrape-variety",
-      // ... other sources
+      "New York Times": "http://localhost:3001/scrape-nyt",
+      "Fox News": "http://localhost:3001/scrape-fox"
     };
 
     // Filter the sources to only those selected by the user
     const filteredSources = Object.entries(sourceEndpoints)
       .filter(([sourceName]) => selectedSources.includes(sourceName))
       .map(([, endpoint]) => endpoint);
+      console.log('filteredSources:', filteredSources);
 
     if (filteredSources.length > 0) {
       Promise.all(filteredSources.map((url) => axios.get(url)))
@@ -37,7 +40,7 @@ function NewsContainer({ selectedSources }) {
   }, [selectedSources]);
 
   if (articles.length === 0) {
-    return <Typography>No article data available.</Typography>;
+   return <Typography>No article data available.</Typography>;
   }
 
   return (

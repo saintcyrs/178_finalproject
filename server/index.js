@@ -18,6 +18,8 @@ const {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
   scrapeVarietyHeadline,
+  scrapeNYTArticle,
+  scrapeFoxNewsArticle,
 } = require("./scraper/scraper");
 
 app.get("/scrape-variety", async (req, res) => {
@@ -53,6 +55,26 @@ app.get("/scrape-deadline", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error scraping data", error: error.toString() });
+  }
+});
+
+// Endpoint for scraping The New York Times
+app.get("/scrape-nyt", async (req, res) => {
+  try {
+    const data = await scrapeNYTArticle("https://www.nytimes.com/section/politics");
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Error scraping The New York Times", error: error.toString() });
+  }
+});
+
+// Endpoint for scraping Fox News
+app.get("/scrape-fox", async (req, res) => {
+  try {
+    const data = await scrapeFoxNewsArticle("https://www.foxnews.com/politics");
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Error scraping Fox News", error: error.toString() });
   }
 });
 
