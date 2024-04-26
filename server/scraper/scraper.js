@@ -1,6 +1,10 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+//TODO: Scraper for BBC
+// TODO: Scraper for CNN
+// TODO: Scraper for Fox
+// TODO: Scraper for The New York Times
 // Scraper for Variety
 const scrapeVarietyHeadline = async (url) => {
   try {
