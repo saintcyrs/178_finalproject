@@ -5,9 +5,10 @@ import "./Preferences.css";
 
 const news_sources = {
   politics: [
-    { name: "CNN", logo: require("../img/cnn.png") },
-    { name: "Fox", logo: require("../img/fox.png") },
-    { name: "BBC", logo: require("../img/bbc.png") },
+    { name: "New York Times", logo: require("../img/nyt.png") },
+    { name: "Wall Street Journal", logo: require("../img/wsj.png") },
+    { name: "Fox News", logo: require("../img/fox.png") },
+
   ],
   entertainment: [
     { name: "Variety", logo: require("../img/variety.png") },
@@ -32,8 +33,10 @@ export default function Preferences() {
     console.log("News source clicked:", source);
     setSelectedSource((prevSelectedSource) => {
       if (prevSelectedSource.includes(source)) {
+        console.log("Current selections:", prevSelectedSource); 
         return prevSelectedSource.filter((item) => item !== source);
       } else {
+        console.log("Current selections:", prevSelectedSource); 
         return [...prevSelectedSource, source];
       }
     });
