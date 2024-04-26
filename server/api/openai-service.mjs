@@ -10,20 +10,26 @@ const openai = new OpenAI({
   project: "proj_6zcGa3rBbVGa2AINiBREDWyo",
 });
 
-async function analyzeContent(text) {
+export async function analyzeContent(text) {
   try {
+    const prompt = `Summarize this content and generate keywords: ${text}`;
     const completion = await openai.chat.completions.create({
       messages: [
-        { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: text },
+        {
+          role: "system",
+          content: "You are a helpful assistant designed to output JSON.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
       ],
       model: "gpt-3.5-turbo",
+      response_format: { type: "json_object" },
     });
-    return completion.data.choices[0].message.content;
+    return completion.choices[0].message.content;
   } catch (error) {
     console.error("Error in OpenAI API call:", error);
     throw error;
   }
 }
-
-export { analyzeContent };
