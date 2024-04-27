@@ -33,9 +33,11 @@ function NewsletterPage() {
       <MyAppBar />
       <Container maxWidth="lg">
         <Typography variant="h3" gutterBottom>
-          Good morning, {firstName}.
+          Hello, {firstName}.
           <br />
-          Today is {todayDate}.
+          {/* Today is {todayDate}.
+          <br /> */}
+          Welcome to dsptch, your personalized, consolidated news source.
         </Typography>
         {selectedSources.length > 0 ? (
           <Grid container spacing={2}>

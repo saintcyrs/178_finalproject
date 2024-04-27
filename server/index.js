@@ -83,8 +83,10 @@ app.get("/scrape-hollywood", async (req, res) => {
   try {
     const data = await scrapeHollywoodReporterHeadline(
       "https://www.hollywoodreporter.com/"
-    ); // Make sure this URL is correct and active
-    res.json(data);
+    );
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
   } catch (error) {
     res
       .status(500)
@@ -95,8 +97,10 @@ app.get("/scrape-hollywood", async (req, res) => {
 // Scraper for Deadline
 app.get("/scrape-deadline", async (req, res) => {
   try {
-    const data = await scrapeDeadlineFirstHeadline("https://www.deadline.com/"); // Make sure this URL is correct and active
-    res.json(data);
+    const data = await scrapeDeadlineFirstHeadline("https://www.deadline.com/");
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
   } catch (error) {
     res
       .status(500)
@@ -107,10 +111,17 @@ app.get("/scrape-deadline", async (req, res) => {
 // Endpoint for scraping The New York Times
 app.get("/scrape-nyt", async (req, res) => {
   try {
-    const data = await scrapeNYTArticle("https://www.nytimes.com/section/politics");
-    res.json(data);
+    const data = await scrapeNYTArticle(
+      "https://www.nytimes.com/section/politics"
+    );
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
   } catch (error) {
-    res.status(500).json({ message: "Error scraping The New York Times", error: error.toString() });
+    res.status(500).json({
+      message: "Error scraping The New York Times",
+      error: error.toString(),
+    });
   }
 });
 
@@ -118,9 +129,13 @@ app.get("/scrape-nyt", async (req, res) => {
 app.get("/scrape-fox", async (req, res) => {
   try {
     const data = await scrapeFoxNewsArticle("https://www.foxnews.com/politics");
-    res.json(data);
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
   } catch (error) {
-    res.status(500).json({ message: "Error scraping Fox News", error: error.toString() });
+    res
+      .status(500)
+      .json({ message: "Error scraping Fox News", error: error.toString() });
   }
 });
 

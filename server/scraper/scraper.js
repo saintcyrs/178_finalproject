@@ -1,6 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+//TODO: Scraper for BBC
+// TODO: Scraper for CNN
 // Scraper for Variety
 const scrapeVarietyHeadline = async (url) => {
   try {
@@ -107,7 +109,6 @@ const scrapeHollywoodReporterHeadline = async (url) => {
   }
 };
 
-
 const scrapeNYTArticle = async (url) => {
   try {
     const response = await axios.get(url);
@@ -115,30 +116,29 @@ const scrapeNYTArticle = async (url) => {
     const $ = cheerio.load(data);
 
     // Assuming your highlighted element is consistent across articles
-    const articleElement = $('article.css-2j26di'); // The class for the article container
+    const articleElement = $("article.css-2j26di"); // The class for the article container
 
     // Extract the details
-    const headline = articleElement.find('h3').text().trim();
-    const articleUrl = articleElement.find('a').attr('href');
-    const imageUrl = articleElement.find('figure img').attr('src'); // Assuming image is within the figure and has an img tag
-    const source = 'The New York Times';
+    const headline = articleElement.find("h3").text().trim();
+    const articleUrl = articleElement.find("a").attr("href");
+    const imageUrl = articleElement.find("figure img").attr("src"); // Assuming image is within the figure and has an img tag
+    const source = "The New York Times";
 
     // Make sure to resolve the relative URL if necessary
-    const absoluteArticleUrl = new URL(articleUrl, 'https://www.nytimes.com').href;
+    const absoluteArticleUrl = new URL(articleUrl, "https://www.nytimes.com")
+      .href;
 
     return {
       source,
       headline,
       link: absoluteArticleUrl,
       imageUrl,
-      
     };
   } catch (error) {
-    console.error('Failed to scrape The New York Times:', error);
+    console.error("Failed to scrape The New York Times:", error);
     throw error;
   }
 };
-
 
 const scrapeFoxNewsArticle = async (url) => {
   try {
@@ -147,41 +147,42 @@ const scrapeFoxNewsArticle = async (url) => {
     const $ = cheerio.load(data);
 
     // The class for the article container
-    const articleElement = $('article.article.story-1');
+    const articleElement = $("article.article.story-1");
 
     // Extract the headline
 
-    const headline = $('h2.title').first().text().trim();
-
+    const headline = $("h2.title").first().text().trim();
 
     // Extract the article URL
-    const articleUrl = articleElement.find('a').attr('href');
+    const articleUrl = articleElement.find("a").attr("href");
 
     // Extract the image URL using the <img> inside <picture>
-    const imageUrl = articleElement.find('picture img').attr('src');
+    const imageUrl = articleElement.find("picture img").attr("src");
 
     // Resolve the URL to an absolute path
-    const absoluteArticleUrl = new URL(articleUrl, 'https://www.foxnews.com/politics').href;
+    const absoluteArticleUrl = new URL(
+      articleUrl,
+      "https://www.foxnews.com/politics"
+    ).href;
 
-    const source = 'Fox News';
+    const source = "Fox News";
 
     return {
       source,
       headline,
       link: absoluteArticleUrl,
       imageUrl, // This now uses the correct selector for the image
-      
     };
   } catch (error) {
-    console.error('Failed to scrape Fox News:', error);
+    console.error("Failed to scrape Fox News:", error);
     throw error;
   }
 };
 
 module.exports = {
-scrapeHollywoodReporterHeadline,
-scrapeDeadlineFirstHeadline,
-scrapeVarietyHeadline,
-scrapeNYTArticle,
-scrapeFoxNewsArticle,
+  scrapeHollywoodReporterHeadline,
+  scrapeDeadlineFirstHeadline,
+  scrapeVarietyHeadline,
+  scrapeNYTArticle,
+  scrapeFoxNewsArticle,
 };
