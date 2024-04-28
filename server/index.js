@@ -1,17 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require('mongoose');
 const app = express();
 
-// Connect to MongoDB - Ensure you have MongoDB running locally
-mongoose.connect('mongodb://localhost:27017/newsAggregator', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-const Article = require('./models/article');
-const Source = require('./models/source');
 
 app.use(cors({
   origin: "http://localhost:3000" // Only allow this origin to access your backend
