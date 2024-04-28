@@ -5,66 +5,50 @@ import { Grid, Container, Typography } from "@mui/material";
 
 function NewsletterPage() {
   const [selectedSources, setSelectedSources] = useState([]);
+  const storedUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const firstName = storedUserInfo.firstName || "Guest";
 
   useEffect(() => {
-    // Retrieve the selected sources from local storage and ensure it's an array
-    const storedSources = localStorage.getItem("selectedSources");
-    const parsedSources = storedSources ? JSON.parse(storedSources) : [];
-    if (Array.isArray(parsedSources)) {
-      setSelectedSources(parsedSources);
-    } else {
-      console.error("selectedSources is not an array:", parsedSources);
-      // Handle the error appropriately
-      setSelectedSources([]); // Set to an empty array as fallback
-    }
+    const storedSources = JSON.parse(
+      localStorage.getItem("selectedSources") || "[]"
+    );
+    setSelectedSources(storedSources.length ? storedSources : []);
   }, []);
-
-  // Retrieve the user's first name from local storage
-  const storedUserInfoString = localStorage.getItem("userInfo");
-  const storedUserInfo = storedUserInfoString
-    ? JSON.parse(storedUserInfoString)
-    : null;
-  const firstName = storedUserInfo ? storedUserInfo["firstName"] : undefined;
-
-  const todayDate = formatDate();
 
   return (
     <>
       <MyAppBar />
-      <Container maxWidth="lg">
-        <Typography variant="h3" gutterBottom>
-          Hello, {firstName}.
-          <br />
-          {/* Today is {todayDate}.
-          <br /> */}
-          Welcome to dsptch, your personalized, consolidated news source.
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{ fontWeight: "bold", color: "primary.main" }}
+        >
+          Hello, {firstName}! Welcome to your personalized news dashboard.
         </Typography>
         {selectedSources.length > 0 ? (
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {selectedSources.map((source, index) => (
-              <Grid item xs={12} sm={10} md={4} lg={3} key={index}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={index}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <NewsContainer selectedSources={[source]} />
               </Grid>
             ))}
           </Grid>
         ) : (
-          <Typography variant="h5">
+          <Typography variant="h5" sx={{ color: "error.main", mt: 2 }}>
             No sources selected. Please select your news sources in preferences.
           </Typography>
         )}
       </Container>
     </>
   );
-}
-
-function formatDate() {
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  return new Date().toLocaleDateString("en-US", options);
 }
 
 export default NewsletterPage;

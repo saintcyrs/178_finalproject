@@ -177,10 +177,39 @@ const scrapeFoxNewsArticle = async (url) => {
   }
 };
 
+// BBC News scraper
+const scrapeBBCNewsHeadline = async (url) => {
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+    const $ = cheerio.load(data);
+
+    const source = "BBC News";
+    const articleElement = $('div[data-testid="westminster-card"]');
+    const headline = articleElement.find("h2").text().trim();
+    const imageUrl = $("div.sc-a898728c-1.jWZsJP img").attr("src");
+    console.log("ImageURL:", imageUrl);
+    const link = articleElement
+      .find('a[data-testid="internal-link"]')
+      .first()
+      .attr("href");
+    return {
+      source,
+      imageUrl,
+      headline,
+      link,
+    };
+  } catch (error) {
+    console.error("Failed to scrape BBC News:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
   scrapeVarietyHeadline,
   scrapeNYTArticle,
   scrapeFoxNewsArticle,
+  scrapeBBCNewsHeadline,
 };
