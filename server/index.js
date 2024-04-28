@@ -1,11 +1,31 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const app = express();
 
+// Connect to MongoDB - Ensure you have MongoDB running locally
+mongoose
+  .connect("mongodb://localhost:27017/newsAggregator", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-app.use(cors({
-  origin: "http://localhost:3000" // Only allow this origin to access your backend
-}));
+// Load ESM module dynamically
+async function loadOpenAIService() {
+  const module = await import("./api/openai-service.mjs");
+  return module;
+}
+
+const Article = require("../client/src/models/article");
+const Source = require("../client/src/models/source");
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Only allow this origin to access your backend
+  })
+);
 app.use(express.json()); // Middleware to parse JSON bodies
 
 const {
@@ -22,31 +42,35 @@ app.get("/", (req, res) => {
 });
 
 // Endpoint to handle upvotes for sources
-app.post('/api/upvote/:sourceId', async (req, res) => {
+app.post("/api/upvote/:sourceId", async (req, res) => {
   try {
     const source = await Source.findById(req.params.sourceId);
-    if (!source) return res.status(404).send('Source not found');
+    if (!source) return res.status(404).send("Source not found");
 
     source.score += 1; // Increment score
     await source.save();
     res.status(200).json(source);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating upvote', error: error.toString() });
+    res
+      .status(500)
+      .json({ message: "Error updating upvote", error: error.toString() });
   }
 });
 
 // Endpoint to handle downvotes for sources
-app.post('/api/downvote/:sourceId', async (req, res) => {
+app.post("/api/downvote/:sourceId", async (req, res) => {
   try {
     const source = await Source.findById(req.params.sourceId);
-    if (!source) return res.status(404).send('Source not found');
+    if (!source) return res.status(404).send("Source not found");
 
     source.score -= 1; // Decrement score
     source.visible = source.score >= 0; // Toggle visibility based on score
     await source.save();
     res.status(200).json(source);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating downvote', error: error.toString() });
+    res
+      .status(500)
+      .json({ message: "Error updating downvote", error: error.toString() });
   }
 });
 
@@ -56,7 +80,7 @@ app.get("/scrape-variety", async (req, res) => {
     const data = await scrapeVarietyHeadline("https://www.variety.com/");
     const article = new Article({
       title: data.headline,
-      summary: 'This summary will be AI generated :)',
+      summary: "This summary will be AI generated :)",
       source: data.source,
       link: data.link,
       imageUrl: data.imageUrl,
@@ -64,7 +88,9 @@ app.get("/scrape-variety", async (req, res) => {
     await article.save();
     res.json(article);
   } catch (error) {
-    res.status(500).json({ message: "Error scraping data", error: error.toString() });
+    res
+      .status(500)
+      .json({ message: "Error scraping data", error: error.toString() });
   }
 });
 
@@ -132,4 +158,4 @@ app.get("/scrape-fox", async (req, res) => {
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
-})
+});
