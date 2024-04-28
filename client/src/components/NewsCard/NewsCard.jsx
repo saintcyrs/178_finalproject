@@ -40,7 +40,11 @@ export default function NewsCard({
         <CardMedia
           component="img"
           height="140"
-          image={imageUrl}
+          image={
+            imageUrl === "/bbcx/grey-placeholder.png"
+              ? require("../../img/bbc.png").default
+              : imageUrl
+          }
           alt="News image"
         />
         <CardContent>
