@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox, FormControlLabel, Button, Typography, Box, Slider} from '@mui/material';
+import { Checkbox, FormControlLabel, Button, Typography, Box, Slider, Paper} from '@mui/material';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 import './Preferences.css'; // Make sure this CSS file contains all the styles needed for both interests and preferences
 
 const news_sources = {
@@ -64,73 +66,81 @@ export default function InterestAndPreferences() {
   const sources = Object.keys(interests).filter(key => interests[key]).flatMap(key => news_sources[key] || []);
 
   return (
-    <Box>
-      <Typography variant="h6">What are you interested in?</Typography>
-      <Box>
-        {Object.keys(interests).map((interest) => (
-          <Box key={interest} sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={interests[interest].selected}
-                  onChange={handleInterestChange}
-                  name={interest}
-                />
-              }
-              label={interest.charAt(0).toUpperCase() + interest.slice(1)}
-            />
-            <Slider
-              value={interests[interest].level}
-              onChange={(event, value) => handleLevelChange(interest, event, value)}
-              disabled={!interests[interest].selected}
-              step={1}
-              marks
-              min={1}
-              max={10}
-              valueLabelDisplay="auto"
-              sx={{ marginLeft: '20px', width: '200px' }}
-            />
-          </Box>
-        ))}
-      </Box>
-      <Box className="news-sources">
-        {sources.map((source) => (
-          <Box
-            key={source.name}
-            className="news-source"
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                border: selectedSource.includes(source.name) ? '2px solid green' : '1px solid grey',
-                padding: '10px',
-                margin: '10px',
-                width: '150px',
-                height: '75px',
-                position: 'relative',
-            }}
-            >
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <img src={source.logo} alt={`${source.name} Logo`} style={{ width: '50px', height: 'auto' }} />
-                <Typography sx={{ marginLeft: '10px', flexGrow: 1 }}>{source.name}</Typography>
-            </Box>
-            <Checkbox
-                checked={selectedSource.includes(source.name)}
-                onChange={(event) => handleSourceChange(event, source.name)}
-                sx={{ position: 'absolute', bottom: '5px', right: '5px' }} // Positioning the checkbox
-            />
-            </Box>
-        ))}
-      </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handlePreferencesSubmit}
-        sx={{ marginTop: '30px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
-      >
-        Continue
-      </Button>
+    <Box sx={{ maxWidth: '800px', margin: 'auto', padding: '20px' }}>
+    <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+      Customize Your News Feed
+    </Typography>
+    <Box sx={{ margin: '40px 0' }}>
+      {Object.keys(interests).map((interest) => (
+        <Box key={interest} sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={interests[interest].selected}
+                onChange={handleInterestChange}
+                name={interest}
+                icon={<StarBorderIcon />}
+                checkedIcon={<StarIcon />}
+              />
+            }
+            label={interest.charAt(0).toUpperCase() + interest.slice(1)}
+            sx={{ marginRight: '20px' }}
+          />
+          <Slider
+            value={interests[interest].level}
+            onChange={(event, value) => handleLevelChange(interest, event, value)}
+            disabled={!interests[interest].selected}
+            step={1}
+            marks
+            min={1}
+            max={10}
+            valueLabelDisplay="auto"
+            sx={{ flexGrow: 1 }}
+          />
+        </Box>
+      ))}
     </Box>
-  );
+    <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+      Select Your News Sources
+    </Typography>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
+      {sources.map((source) => (
+        <Paper
+          key={source.name}
+          elevation={selectedSource.includes(source.name) ? 12 : 2}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: '20px',
+            '&:hover': {
+              boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+              transform: 'scale(1.05)'
+            },
+            width: '150px',
+            minHeight: '100px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <img src={source.logo} alt={`${source.name} Logo`} style={{ width: '100%', height: 'auto' }} />
+          <Checkbox
+            checked={selectedSource.includes(source.name)}
+            onChange={(event) => handleSourceChange(event, source.name)}
+            sx={{ position: 'absolute', top: '5px', right: '5px', color: 'green' }}
+          />
+        </Paper>
+      ))}
+    </Box>
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={handlePreferencesSubmit}
+      sx={{ marginTop: '30px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+    >
+      Continue
+    </Button>
+  </Box>
+);
 }
