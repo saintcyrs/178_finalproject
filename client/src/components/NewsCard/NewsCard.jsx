@@ -23,24 +23,6 @@ export default function NewsCard({
   const [vote, setVote] = useState(null);
 
 
-const handleUpvote = async () => {
-  try {
-    const response = await axios.post(`http://localhost:3001/api/upvote/${source}`);
-    console.log('Upvote successful:', response.data);
-  } catch (error) {
-    console.error('Error upvoting:', error);
-  }
-};
-
-const handleDownvote = async () => {
-  try {
-    const response = await axios.post(`http://localhost:3001/api/downvote/${source}`);
-    console.log('Downvote successful:', response.data);
-  } catch (error) {
-    console.error('Error downvoting:', error);
-  }
-};
-
   return (
     <Card raised elevation={3} style={{ margin: 8 }}>
       <CardActionArea
