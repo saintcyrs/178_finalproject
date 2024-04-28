@@ -1,25 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const app = express();
-
-// Connect to MongoDB - Ensure you have MongoDB running locally
-mongoose
-  .connect("mongodb://localhost:27017/newsAggregator", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Load ESM module dynamically
 async function loadOpenAIService() {
   const module = await import("./api/openai-service.mjs");
   return module;
 }
-
-const Article = require("../client/src/models/article");
-const Source = require("../client/src/models/source");
 
 app.use(
   cors({
