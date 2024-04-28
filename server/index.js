@@ -19,9 +19,9 @@ const {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
   scrapeVarietyHeadline,
-  scrapeNYTArticle,
+  scrapeNBCNewsHeadline,
   scrapeFoxNewsArticle,
-  scrapeBBCNewsHeadline,
+  scrapeAPNewsHeadline,
 } = require("./scraper/scraper");
 
 // Root route
@@ -73,18 +73,16 @@ app.get("/scrape-deadline", async (req, res) => {
   }
 });
 
-// Endpoint for scraping The New York Times
-app.get("/scrape-nyt", async (req, res) => {
+// Endpoint for scraping NBC News
+app.get("/scrape-nbc", async (req, res) => {
   try {
-    const data = await scrapeNYTArticle(
-      "https://www.nytimes.com/section/politics"
-    );
+    const data = await scrapeNBCNewsHeadline("https://www.nbcnews.com/");
     const { analyzeContent } = await loadOpenAIService();
     const summary = await analyzeContent(data.link);
     res.json({ ...data, summary });
   } catch (error) {
     res.status(500).json({
-      message: "Error scraping The New York Times",
+      message: "Error scraping NBC News",
       error: error.toString(),
     });
   }
@@ -104,17 +102,17 @@ app.get("/scrape-fox", async (req, res) => {
   }
 });
 
-// Endpoint for scraping Fox News
-app.get("/scrape-bbc", async (req, res) => {
+// Endpoint for scraping AP News
+app.get("/scrape-ap", async (req, res) => {
   try {
-    const data = await scrapeBBCNewsHeadline("https://www.bbc.com/");
+    const data = await scrapeAPNewsHeadline("https://apnews.com/");
     const { analyzeContent } = await loadOpenAIService();
     const summary = await analyzeContent(data.link);
     res.json({ ...data, summary });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error scraping BBC News", error: error.toString() });
+      .json({ message: "Error scraping AP News", error: error.toString() });
   }
 });
 const port = 3001;

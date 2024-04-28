@@ -107,37 +107,6 @@ const scrapeHollywoodReporterHeadline = async (url) => {
   }
 };
 
-const scrapeNYTArticle = async (url) => {
-  try {
-    const response = await axios.get(url);
-    const data = response.data;
-    const $ = cheerio.load(data);
-
-    // Assuming your highlighted element is consistent across articles
-    const articleElement = $("article.css-2j26di"); // The class for the article container
-
-    // Extract the details
-    const headline = articleElement.find("h3").text().trim();
-    const articleUrl = articleElement.find("a").attr("href");
-    const imageUrl = articleElement.find("figure img").attr("src"); // Assuming image is within the figure and has an img tag
-    const source = "The New York Times";
-
-    // Make sure to resolve the relative URL if necessary
-    const absoluteArticleUrl = new URL(articleUrl, "https://www.nytimes.com")
-      .href;
-
-    return {
-      source,
-      headline,
-      link: absoluteArticleUrl,
-      imageUrl,
-    };
-  } catch (error) {
-    console.error("Failed to scrape The New York Times:", error);
-    throw error;
-  }
-};
-
 const scrapeFoxNewsArticle = async (url) => {
   try {
     const response = await axios.get(url);
@@ -178,21 +147,17 @@ const scrapeFoxNewsArticle = async (url) => {
 };
 
 // BBC News scraper
-const scrapeBBCNewsHeadline = async (url) => {
+const scrapeAPNewsHeadline = async (url) => {
   try {
     const response = await axios.get(url);
     const data = response.data;
     const $ = cheerio.load(data);
 
-    const source = "BBC News";
-    const articleElement = $('div[data-testid="westminster-card"]');
-    const headline = articleElement.find("h2").text().trim();
-    const imageUrl = $("div.sc-a898728c-1.jWZsJP img").attr("src");
-    console.log("ImageURL:", imageUrl);
-    const link = articleElement
-      .find('a[data-testid="internal-link"]')
-      .first()
-      .attr("href");
+    const source = "Associated Press";
+    const linkElement = $("a.Link[aria-label]");
+    const headline = linkElement.attr("aria-label");
+    const link = linkElement.attr("href");
+    const imageUrl = linkElement.find("img").attr("src");
     return {
       source,
       imageUrl,
@@ -205,11 +170,47 @@ const scrapeBBCNewsHeadline = async (url) => {
   }
 };
 
+// NBC News scraper
+const scrapeNBCNewsHeadline = async (url) => {
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+    const $ = cheerio.load(data);
+
+    const source = "NBC News";
+    const section = $("section.pkg.storyline").first();
+    // Extract the headline text and URL
+    const headlineLinkElement = section
+      .find("h2.storyline__headline a")
+      .first();
+    const headline = headlineLinkElement.text();
+    const link = headlineLinkElement.attr("href");
+
+    // Extract the image URL from the <picture> element
+    const imageUrl = section.find("picture img").attr("src"); // Adjust this selector based on your needs
+
+    // Output the extracted information
+    console.log("Headline Text:", headline);
+    console.log("Headline URL:", link);
+    console.log("Image URL:", imageUrl);
+
+    return {
+      source,
+      imageUrl,
+      headline,
+      link,
+    };
+  } catch (error) {
+    console.error("Failed to scrape NBC News:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   scrapeHollywoodReporterHeadline,
   scrapeDeadlineFirstHeadline,
   scrapeVarietyHeadline,
-  scrapeNYTArticle,
+  scrapeNBCNewsHeadline,
   scrapeFoxNewsArticle,
-  scrapeBBCNewsHeadline,
+  scrapeAPNewsHeadline,
 };

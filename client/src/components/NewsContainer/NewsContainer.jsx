@@ -15,7 +15,8 @@ function NewsContainer({ selectedSources }) {
       Variety: "http://localhost:3001/scrape-variety",
       "New York Times": "http://localhost:3001/scrape-nyt",
       "Fox News": "http://localhost:3001/scrape-fox",
-      "BBC News": "http://localhost:3001/scrape-bbc",
+      "AP News": "http://localhost:3001/scrape-ap",
+      "NBC News": "http://localhost:3001/scrape-nbc",
     };
 
     // Filter the sources to only those selected by the user
