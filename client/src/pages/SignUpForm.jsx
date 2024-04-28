@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Typography, Container, Paper, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import newspaperImage from '../img/newspaper3.webp';
+import newspaperImage from '../img/newspaper4.jpg';
 
 const theme = createTheme({
   palette: {
@@ -42,7 +42,7 @@ export default function SignUpForm() {
       <CssBaseline />
       <Container component="main" maxWidth="xs" style={{ paddingTop: '10vh' }}>
         <Typography variant="h3" component="h1" gutterBottom style={{ fontWeight: 600, marginBottom: '20px' }}>
-          Personalized News
+          Up2Date
         </Typography>
         <Paper elevation={6} style={{ padding: '20px' }}>
           <Typography variant="h4" component="h2" gutterBottom>
@@ -113,7 +113,7 @@ return (
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} style={{ padding: '20px', backgroundColor: 'rgba(255, 255, 255, 0.85)' }}> {/* Semi-transparent background */}
           <Typography variant="h3" component="h1" gutterBottom style={{ fontWeight: 600, marginBottom: '20px' }}>
-            Personalized News
+            up2date
           </Typography>
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           {error && <Typography color="error">{error}</Typography>}
