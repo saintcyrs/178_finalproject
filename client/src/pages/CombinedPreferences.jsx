@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox, FormControlLabel, Button, Typography, Box } from '@mui/material';
+import { Checkbox, FormControlLabel, Button, Typography, Box, Slider} from '@mui/material';
 import './Preferences.css'; // Make sure this CSS file contains all the styles needed for both interests and preferences
 
 const news_sources = {
@@ -26,10 +26,10 @@ const extractSourceNames = (sourcesObject) => {
 
 export default function InterestAndPreferences() {
   const [interests, setInterests] = useState({
-    entertainment: true,
-    politics: true,
-    world: true,
-    sports: true, // Assuming you want to include sports, though it's not defined in the news_sources
+    entertainment: { selected: true, level: 5 },
+    politics: { selected: true, level: 5 },
+    world: { selected: true, level: 5 },
+    sports: { selected: true, level: 5 } 
   });
   const allSourceNames = extractSourceNames(news_sources);
   const [selectedSource, setSelectedSource] = useState(allSourceNames);
@@ -37,7 +37,11 @@ export default function InterestAndPreferences() {
 
   const handleInterestChange = (event) => {
     const { name, checked } = event.target;
-    setInterests(prev => ({ ...prev, [name]: checked }));
+    setInterests(prev => ({ ...prev, [name]: { ...prev[name], selected: checked } }));
+  };
+  
+  const handleLevelChange = (name, event, value) => {
+    setInterests(prev => ({ ...prev, [name]: { ...prev[name], level: value } }));
   };
 
   const handleSourceChange = (event, sourceName) => {
@@ -64,35 +68,47 @@ export default function InterestAndPreferences() {
       <Typography variant="h6">What are you interested in?</Typography>
       <Box>
         {Object.keys(interests).map((interest) => (
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={interests[interest]}
-                onChange={handleInterestChange}
-                name={interest}
-              />
-            }
-            label={interest.charAt(0).toUpperCase() + interest.slice(1)}
-            key={interest}
-          />
+          <Box key={interest} sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={interests[interest].selected}
+                  onChange={handleInterestChange}
+                  name={interest}
+                />
+              }
+              label={interest.charAt(0).toUpperCase() + interest.slice(1)}
+            />
+            <Slider
+              value={interests[interest].level}
+              onChange={(event, value) => handleLevelChange(interest, event, value)}
+              disabled={!interests[interest].selected}
+              step={1}
+              marks
+              min={1}
+              max={10}
+              valueLabelDisplay="auto"
+              sx={{ marginLeft: '20px', width: '200px' }}
+            />
+          </Box>
         ))}
       </Box>
-        <Box className="news-sources">
+      <Box className="news-sources">
         {sources.map((source) => (
-            <Box
+          <Box
             key={source.name}
             className="news-source"
             sx={{
                 display: 'flex',
-                flexDirection: 'column', // Set direction to column to stack image/text and checkbox
-                justifyContent: 'space-between', // Space between content and checkbox
-                alignItems: 'flex-start', // Align items to the start
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
                 border: selectedSource.includes(source.name) ? '2px solid green' : '1px solid grey',
                 padding: '10px',
                 margin: '10px',
-                width: '150px', // Example width, adjust as needed
-                height: '75px', // Example height, adjust as needed
-                position: 'relative', // Needed for absolute positioning of the checkbox
+                width: '150px',
+                height: '75px',
+                position: 'relative',
             }}
             >
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -111,7 +127,7 @@ export default function InterestAndPreferences() {
         variant="contained"
         color="primary"
         onClick={handlePreferencesSubmit}
-        sx={{ marginTop: '20px' }}
+        sx={{ marginTop: '30px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
       >
         Continue
       </Button>
