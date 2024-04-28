@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
+
 // Load ESM module dynamically
 async function loadOpenAIService() {
   const module = await import("./api/openai-service.mjs");
@@ -28,7 +29,6 @@ const {
 app.get("/", (req, res) => {
   res.send("Welcome to the server!");
 });
-
 // Define routes to scrape news sources and potentially save them as articles
 app.get("/scrape-variety", async (req, res) => {
   try {
