@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import axios from 'axios'; // Make sure to import axios
 
 export default function NewsCard({
   title,
@@ -18,13 +17,26 @@ export default function NewsCard({
   source,
   sourceUrl,
   imageUrl,
-  articleId, // Make sure articleId is passed as a prop
 }) {
+  // Set up the upvote and downvote state
   const [vote, setVote] = useState(null);
 
+  const handleUpvote = () => {
+    setVote(vote === true ? null : true);
+    console.log(vote);
+  };
 
+  const handleDownvote = () => {
+    setVote(vote === false ? null : false);
+    console.log(vote);
+  };
   return (
-    <Card raised elevation={3} style={{ margin: 8 }}>
+    <Card raised
+    elevation={3}
+    style={{
+      margin: 8,
+      backgroundColor: vote === false ? "#808080" : "white",  // Conditional background color
+    }} >
       <CardActionArea
         href={sourceUrl}
         target="_blank"
@@ -45,9 +57,9 @@ export default function NewsCard({
           ) : (
             <Typography color="textSecondary">No summary available.</Typography>
           )}
-          <br></br>
+          <br />
           <Typography variant="body2" color="black">
-            {source || "Read More"}
+            {source || "Read More"}{" "}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -59,6 +71,7 @@ export default function NewsCard({
         >
           <ArrowUpwardIcon />
         </IconButton>
+        {/* <Typography variant="body2">{vote}</Typography> */}
         <IconButton
           onClick={handleDownvote}
           aria-label="downvote"

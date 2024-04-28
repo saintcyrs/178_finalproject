@@ -22,6 +22,7 @@ const {
   scrapeVarietyHeadline,
   scrapeNYTArticle,
   scrapeFoxNewsArticle,
+  scrapeBBCNewsHeadline,
 } = require("./scraper/scraper");
 
 // Root route
@@ -32,15 +33,9 @@ app.get("/", (req, res) => {
 app.get("/scrape-variety", async (req, res) => {
   try {
     const data = await scrapeVarietyHeadline("https://www.variety.com/");
-    const article = new Article({
-      title: data.headline,
-      summary: "This summary will be AI generated :)",
-      source: data.source,
-      link: data.link,
-      imageUrl: data.imageUrl,
-    });
-    await article.save();
-    res.json(article);
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
   } catch (error) {
     res
       .status(500)
@@ -109,6 +104,19 @@ app.get("/scrape-fox", async (req, res) => {
   }
 });
 
+// Endpoint for scraping Fox News
+app.get("/scrape-bbc", async (req, res) => {
+  try {
+    const data = await scrapeBBCNewsHeadline("https://www.bbc.com/");
+    const { analyzeContent } = await loadOpenAIService();
+    const summary = await analyzeContent(data.link);
+    res.json({ ...data, summary });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error scraping BBC News", error: error.toString() });
+  }
+});
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
