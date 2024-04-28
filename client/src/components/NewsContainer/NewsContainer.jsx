@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NewsCard from "../NewsCard/NewsCard";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
 
 function NewsContainer({ selectedSources }) {
@@ -15,14 +15,13 @@ function NewsContainer({ selectedSources }) {
       Variety: "http://localhost:3001/scrape-variety",
       "New York Times": "http://localhost:3001/scrape-nyt",
       "Fox News": "http://localhost:3001/scrape-fox",
+      "BBC News": "http://localhost:3001/scrape-bbc",
     };
 
     // Filter the sources to only those selected by the user
     const filteredSources = Object.entries(sourceEndpoints)
       .filter(([sourceName]) => selectedSources.includes(sourceName))
       .map(([, endpoint]) => endpoint);
-    console.log("filteredSources:", filteredSources);
-
     if (filteredSources.length > 0) {
       Promise.all(filteredSources.map((url) => axios.get(url)))
         .then((responses) => {
@@ -46,7 +45,7 @@ function NewsContainer({ selectedSources }) {
   }, [selectedSources]);
 
   if (articles.length === 0) {
-    return <Typography>No article data available.</Typography>;
+    return "No articles found for this source.";
   }
 
   console.log("Articles:", articles);
