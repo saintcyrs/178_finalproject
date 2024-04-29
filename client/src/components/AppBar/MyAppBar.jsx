@@ -10,8 +10,12 @@ export default function MyAppBar() {
   return (
     <AppBar position="static" color="default" elevation={0}>
       <Toolbar>
-        <Typography variant="h6" color="inherit" noWrap>
-          dsptch
+        <Typography
+          sx={{ fontWeight: "700px", color: "#1976d2" }}
+          noWrap
+          onClick={handleSignOut}
+        >
+          up2date
         </Typography>
         <Button
           onClick={handleSignOut}

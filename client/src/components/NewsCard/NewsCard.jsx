@@ -23,20 +23,20 @@ export default function NewsCard({
 
   const handleUpvote = () => {
     setVote(vote === true ? null : true);
-    console.log(vote);
   };
 
   const handleDownvote = () => {
     setVote(vote === false ? null : false);
-    console.log(vote);
   };
   return (
-    <Card raised
-    elevation={3}
-    style={{
-      margin: 8,
-      backgroundColor: vote === false ? "#808080" : "white",  // Conditional background color
-    }} >
+    <Card
+      raised
+      elevation={3}
+      style={{
+        margin: 8,
+        backgroundColor: vote === false ? "#D3D3D3" : "white", // Conditional background color
+      }}
+    >
       <CardActionArea
         href={sourceUrl}
         target="_blank"
@@ -44,12 +44,12 @@ export default function NewsCard({
       >
         <CardMedia
           component="img"
-          height="140"
+          height="200"
           image={imageUrl}
           alt="News image"
         />
         <CardContent>
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h2" sx={{ marginBottom: "5px" }}>
             {title || "No Title Available"}
           </Typography>
           {summary ? (

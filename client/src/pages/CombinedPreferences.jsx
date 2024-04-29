@@ -36,8 +36,6 @@ export default function InterestAndPreferences() {
   const [interests, setInterests] = useState({
     entertainment: { selected: true, level: 5 },
     politics: { selected: true, level: 5 },
-    // world: { selected: true, level: 5 },
-    // sports: { selected: true, level: 5 },
   });
   const allSourceNames = extractSourceNames(news_sources);
   const [selectedSource, setSelectedSource] = useState(allSourceNames);
@@ -84,8 +82,24 @@ export default function InterestAndPreferences() {
 
   return (
     <Box sx={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
-      <Typography variant="h4" gutterBottom sx={{ textAlign: "center" }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ textAlign: "center", color: "#1976d2", fontWeight: "700" }}
+      >
         Customize Your News Feed
+      </Typography>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          fontStyle: "italic",
+          fontWeight: "700",
+        }}
+      >
+        Gauge your interest: 1 = Not Interested, 10 = Very Interested
       </Typography>
       <Box sx={{ margin: "40px 0" }}>
         {Object.keys(interests).map((interest) => (
@@ -117,13 +131,38 @@ export default function InterestAndPreferences() {
               min={1}
               max={10}
               valueLabelDisplay="auto"
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: 1, fontSize: "15px" }}
             />
           </Box>
         ))}
       </Box>
-      <Typography variant="h6" gutterBottom sx={{ textAlign: "center" }}>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          fontStyle: "italic",
+          fontWeight: "700",
+        }}
+      >
         Select Your News Sources
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: "20px",
+          fontStyle: "italic",
+          textAlign: "left",
+          marginBottom: "20px",
+        }}
+      >
+        up2date takes top headlines from sources you select and curates them to
+        form a consolidated newsletter. <br></br> it uses the OpenAI API to
+        generate 1-2 sentence summaries of those articles. <br></br>
+        <br></br> though we provide the summaries for convenience, due to
+        algorithmic biases present in large language models, we strongly
+        encourage not relying on these summaries for your information and
+        reading the articles in their entirety.
       </Typography>
       <Box
         sx={{

@@ -4,7 +4,7 @@ import NewsletterPage from "./pages/NewsletterPage";
 import SignUpForm from "./pages/SignUpForm";
 import "./App.css";
 //import InterestForm from "./pages/InterestForm";
-import CombinedPreferences from "./pages/CombinedPreferences"
+import CombinedPreferences from "./pages/CombinedPreferences";
 
 function App() {
   return (
