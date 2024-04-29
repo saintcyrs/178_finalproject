@@ -5,22 +5,20 @@ import { Grid, Container, Typography } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { styled } from "@mui/system";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { fontSize, styled } from "@mui/system";
 
 // This creates a global style that overrides the slick slider arrows
 const GlobalStyle = styled("div")(({ theme }) => ({
   [`& .slick-prev, & .slick-next`]: {
-    backgroundColor: "gray", // Your desired background color
+    backgroundColor: "white", // Your desired background color
     color: "gray", // Arrow icon color
     zIndex: 1,
-    width: "30px",
-    height: "30px",
+    fontSize: "40px",
   },
   [`& .slick-prev:before, & .slick-next:before`]: {
     color: "white", // Arrow icon color, ensure it's visible on your background
-  },
-  [`& .slick-prev:hover, & .slick-next:hover`]: {
-    backgroundColor: "primary.main", // Background color on hover
   },
   [`& .slick-prev`]: {
     left: "-40px",
@@ -29,6 +27,36 @@ const GlobalStyle = styled("div")(({ theme }) => ({
     right: "-40px",
   },
 }));
+
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <ArrowForwardIcon
+      className={className}
+      style={{
+        ...style,
+        display: "block", // Ensure the display isn't none
+        color: "black", // Choose color for the arrow
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <ArrowBackIcon
+      className={className}
+      style={{
+        ...style,
+        display: "block", // Ensure the display isn't none
+        color: "black", // Choose color for the arrow
+      }}
+      onClick={onClick}
+    />
+  );
+};
 
 function NewsletterPage() {
   const [selectedSources, setSelectedSources] = useState([]);
@@ -44,7 +72,8 @@ function NewsletterPage() {
 
   const settings = {
     dots: true,
-    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
