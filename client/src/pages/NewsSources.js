@@ -1,18 +1,14 @@
 const news_sources = {
-    politics: [
-      { name: "BBC News", logo: require("../img/bbc.png") },
-      { name: "CNN", logo: require("../img/cnn.png") },
-      { name: "Fox News", logo: require("../img/fox.png") },
-    ],
-    entertainment: [
-      { name: "Variety", logo: require("../img/variety.png") },
-      { name: "The Hollywood Reporter", logo: require("../img/hollywood.png") },
-      { name: "Deadline", logo: require("../img/deadline.png") },
-    ],
-    world: [
-      { name: "New York Times", logo: require("../img/nyt.png") },
-      { name: "Wall Street Journal", logo: require("../img/wsj.png") },
-    ]
-  };
+  politics: [
+    { name: "NBC News", logo: require("../img/nbc.png") },
+    { name: "AP News", logo: require("../img/ap.png") },
+    { name: "Fox News", logo: require("../img/fox.png") },
+  ],
+  entertainment: [
+    { name: "Variety", logo: require("../img/variety.png") },
+    { name: "The Hollywood Reporter", logo: require("../img/hollywood.png") },
+    { name: "Deadline", logo: require("../img/deadline.png") },
+  ],
+};
 
-  export default news_sources;
+export default news_sources;

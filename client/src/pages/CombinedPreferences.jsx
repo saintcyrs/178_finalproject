@@ -7,7 +7,6 @@ import {
   Typography,
   Box,
   Slider,
-  Paper,
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -69,17 +68,26 @@ export default function InterestAndPreferences() {
 
   const handlePreferencesSubmit = () => {
     const selectedInterestsAndLevels = Object.entries(interests)
-    .filter(([key, value]) => value.selected)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value.level;
-      return acc;
-    }, {});
+      .filter(([key, value]) => value.selected)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value.level;
+        return acc;
+      }, {});
 
-  localStorage.setItem('selectedInterests', JSON.stringify(Object.keys(selectedInterestsAndLevels)));
-  localStorage.setItem('interestLevels', JSON.stringify(selectedInterestsAndLevels)); // Save the levels
-  localStorage.setItem('selectedSources', JSON.stringify(selectedSource.map(source => source.name)));
+    localStorage.setItem(
+      "selectedInterests",
+      JSON.stringify(Object.keys(selectedInterestsAndLevels))
+    );
+    localStorage.setItem(
+      "interestLevels",
+      JSON.stringify(selectedInterestsAndLevels)
+    ); // Save the levels
+    localStorage.setItem(
+      "selectedSources",
+      JSON.stringify(selectedSource.map((source) => source.name))
+    );
 
-  navigate('/newsletter');
+    navigate("/newsletter");
   };
 
   const sources = Object.keys(interests)
@@ -132,35 +140,54 @@ export default function InterestAndPreferences() {
             key={source.name}
             className="news-source"
             sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                border: selectedSource.includes(source.name) ? '2px solid green' : '1px solid grey',
-                padding: '10px',
-                margin: '10px',
-                width: '150px',
-                height: '75px',
-                position: 'relative',
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              border: selectedSource.includes(source.name)
+                ? "2px solid green"
+                : "1px solid grey",
+              padding: "10px",
+              margin: "10px",
+              width: "150px",
+              height: "75px",
+              position: "relative",
             }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
             >
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <img src={source.logo} alt={`${source.name} Logo`} style={{ width: '50px', height: 'auto' }} />
-                <Typography sx={{ marginLeft: '10px', flexGrow: 1 }}>{source.name}</Typography>
+              <img
+                src={source.logo}
+                alt={`${source.name} Logo`}
+                style={{ width: "50px", height: "auto" }}
+              />
+              <Typography sx={{ marginLeft: "10px", flexGrow: 1 }}>
+                {source.name}
+              </Typography>
             </Box>
             <Checkbox
-                checked={selectedSource.includes(source.name)}
-                onChange={(event) => handleSourceChange(event, source.name)}
-                sx={{ position: 'absolute', bottom: '5px', right: '5px' }} // Positioning the checkbox
+              checked={selectedSource.includes(source.name)}
+              onChange={(event) => handleSourceChange(event, source.name)}
+              sx={{ position: "absolute", bottom: "5px", right: "5px" }} // Positioning the checkbox
             />
-            </Box>
+          </Box>
         ))}
       </Box>
       <Button
         variant="contained"
         color="primary"
         onClick={handlePreferencesSubmit}
-        sx={{ marginTop: '30px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+        sx={{
+          marginTop: "30px",
+          display: "block",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
       >
         Continue
       </Button>

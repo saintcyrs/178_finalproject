@@ -11,28 +11,26 @@ function NewsContainer({ source }) {
       "The Hollywood Reporter": "http://localhost:3001/scrape-hollywood",
       Deadline: "http://localhost:3001/scrape-deadline",
       Variety: "http://localhost:3001/scrape-variety",
-      "New York Times": "http://localhost:3001/scrape-nyt",
       "Fox News": "http://localhost:3001/scrape-fox",
       "AP News": "http://localhost:3001/scrape-ap",
       "NBC News": "http://localhost:3001/scrape-nbc",
     };
 
-    if (sourceEndpoint) {
-      axios.get(sourceEndpoint)
+    Object.values(sourceEndpoint).forEach((url) => {
+      axios
+        .get(url)
         .then((response) => {
-          // Assume response.data contains the article data directly
           setArticle(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching news from source:", source.name, error);
+          console.error("Failed to fetch data:", error);
         });
-    }
+    });
   }, [source]);
 
   if (!article) {
     return <Box>No articles found for {source.name}.</Box>;
   }
-
   return (
     <Box
       sx={{
