@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import MyAppBar from "../components/AppBar/MyAppBar";
 import NewsContainer from "../components/NewsContainer/NewsContainer";
 import { Grid, Container, Typography } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function NewsletterPage() {
   const [selectedSources, setSelectedSources] = useState([]);
@@ -14,6 +17,57 @@ function NewsletterPage() {
     );
     setSelectedSources(storedSources.length ? storedSources : []);
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  return (
+    <>
+      <MyAppBar />
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Typography variant="h3" gutterBottom sx={{ fontWeight: "bold", color: "primary.main" }}>
+          Hello, {firstName}! Welcome to your personalized news dashboard.
+        </Typography>
+        {selectedSources.length > 0 ? (
+          <Slider {...settings}>
+            {selectedSources.map((source, index) => (
+              <div key={index}>
+                <NewsContainer selectedSources={[source]} />
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          <Typography variant="h5" sx={{ color: "error.main", mt: 2 }}>
+            No sources selected. Please select your news sources in preferences.
+          </Typography>
+        )}
+      </Container>
+    </>
+  );
+}
+
+/*
 
   return (
     <>
@@ -49,6 +103,6 @@ function NewsletterPage() {
       </Container>
     </>
   );
-}
+} */
 
 export default NewsletterPage;
