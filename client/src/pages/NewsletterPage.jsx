@@ -70,22 +70,22 @@ function NewsletterPage() {
     setSelectedSources(storedSources.length ? storedSources : []);
   }, []);
 
-  const isMultiple = selectedSources.length > 1;
+  const slidesToShow = Math.min(selectedSources.length, 3);
 
   const settings = {
     dots: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    infinite: isMultiple,
+    infinite: selectedSources.length > 1,
     speed: 500,
-    slidesToShow: isMultiple ? 3 : 1, // Show only one slide if there's one source
-    slidesToScroll: isMultiple ? 3 : 1,
+    slidesToShow: slidesToShow, // Show only one slide if there's one source
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: isMultiple ? 2 : 1,
-          slidesToScroll: isMultiple ? 2 : 1,
+          slidesToShow: Math.min(2, selectedSources.length),
+          slidesToScroll: 1,
         },
       },
       {
