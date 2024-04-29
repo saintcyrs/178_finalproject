@@ -11,7 +11,7 @@ export default function MyAppBar() {
     <AppBar position="static" color="default" elevation={0}>
       <Toolbar>
         <Typography variant="h6" color="inherit" noWrap>
-          dsptch
+          up2date
         </Typography>
         <Button
           onClick={handleSignOut}
