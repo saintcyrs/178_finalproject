@@ -7,6 +7,7 @@ import {
   CardActionArea,
   CardActions,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -34,7 +35,8 @@ export default function NewsCard({
       elevation={3}
       style={{
         margin: 8,
-        backgroundColor: vote === false ? "#D3D3D3" : "white", // Conditional background color
+        backgroundColor: vote === false ? "#D3D3D3" :
+        vote === true ? "#ccffcc" : "white", // Light green when upvoted
       }}
     >
       <CardActionArea
@@ -64,6 +66,7 @@ export default function NewsCard({
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
+      <Tooltip title="Upvote if you like the article">
         <IconButton
           onClick={handleUpvote}
           aria-label="upvote"
@@ -71,7 +74,8 @@ export default function NewsCard({
         >
           <ArrowUpwardIcon />
         </IconButton>
-        {/* <Typography variant="body2">{vote}</Typography> */}
+        </Tooltip>
+        <Tooltip title="Downvote if you dislike the article">
         <IconButton
           onClick={handleDownvote}
           aria-label="downvote"
@@ -79,6 +83,7 @@ export default function NewsCard({
         >
           <ArrowDownwardIcon />
         </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );
