@@ -13,8 +13,9 @@ function NewsContainer({ source }) {
       Variety: "http://localhost:3001/scrape-variety",
       "New York Times": "http://localhost:3001/scrape-nyt",
       "Fox News": "http://localhost:3001/scrape-fox",
-      "BBC News": "http://localhost:3001/scrape-bbc",
-    }[source.name];
+      "AP News": "http://localhost:3001/scrape-ap",
+      "NBC News": "http://localhost:3001/scrape-nbc",
+    };
 
     if (sourceEndpoint) {
       axios.get(sourceEndpoint)

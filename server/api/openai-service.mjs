@@ -12,7 +12,7 @@ const openai = new OpenAI({
 
 export async function analyzeContent(text) {
   try {
-    const prompt = `Summarize this content and generate keywords: ${text}`;
+    const prompt = `Summarize the content and generate keywords from the following link: ${text}`;
     const completion = await openai.chat.completions.create({
       messages: [
         {

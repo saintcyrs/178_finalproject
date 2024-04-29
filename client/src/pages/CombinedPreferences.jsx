@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Checkbox, FormControlLabel, Button, Typography, Box, Slider} from '@mui/material';
-import './Preferences.css'; // Make sure this CSS file contains all the styles needed for both interests and preferences
-import news_sources from './NewsSources.js';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Checkbox,
+  FormControlLabel,
+  Button,
+  Typography,
+  Box,
+  Slider,
+  Paper,
+} from "@mui/material";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import "./Preferences.css"; // Make sure this CSS file contains all the styles needed for both interests and preferences
+
+const news_sources = {
+  politics: [
+    { name: "AP News", logo: require("../img/ap.png") },
+    { name: "Fox News", logo: require("../img/fox.png") },
+    { name: "NBC News", logo: require("../img/nbc.png") },
+  ],
+  entertainment: [
+    { name: "Variety", logo: require("../img/variety.png") },
+    { name: "The Hollywood Reporter", logo: require("../img/hollywood.png") },
+    { name: "Deadline", logo: require("../img/deadline.png") },
+  ],
+};
 
 const extractSourceNames = (sourcesObject) => {
-  return Object.values(sourcesObject).flat().map((source) => source.name);
+  return Object.values(sourcesObject)
+    .flat()
+    .map((source) => source.name);
 };
 
 export default function InterestAndPreferences() {
@@ -13,7 +37,7 @@ export default function InterestAndPreferences() {
     entertainment: { selected: true, level: 5 },
     politics: { selected: true, level: 5 },
     world: { selected: true, level: 5 },
-    sports: { selected: true, level: 5 } 
+    sports: { selected: true, level: 5 },
   });
   const allSourceNames = extractSourceNames(news_sources);
   const [selectedSource, setSelectedSource] = useState(allSourceNames);
@@ -21,20 +45,26 @@ export default function InterestAndPreferences() {
 
   const handleInterestChange = (event) => {
     const { name, checked } = event.target;
-    setInterests(prev => ({ ...prev, [name]: { ...prev[name], selected: checked } }));
+    setInterests((prev) => ({
+      ...prev,
+      [name]: { ...prev[name], selected: checked },
+    }));
   };
-  
+
   const handleLevelChange = (name, event, value) => {
-    setInterests(prev => ({ ...prev, [name]: { ...prev[name], level: value } }));
+    setInterests((prev) => ({
+      ...prev,
+      [name]: { ...prev[name], level: value },
+    }));
   };
 
   const handleSourceChange = (event, sourceName) => {
     const isChecked = event.target.checked;
-    setSelectedSource(prevSelectedSource => {
+    setSelectedSource((prevSelectedSource) => {
       if (isChecked) {
         return [...prevSelectedSource, sourceName];
       } else {
-        return prevSelectedSource.filter(item => item !== sourceName);
+        return prevSelectedSource.filter((item) => item !== sourceName);
       }
     });
   };
@@ -54,34 +84,46 @@ export default function InterestAndPreferences() {
   navigate('/newsletter');
   };
 
-  const sources = Object.keys(interests).filter(key => interests[key]).flatMap(key => news_sources[key] || []);
+  const sources = Object.keys(interests)
+    .filter((key) => interests[key])
+    .flatMap((key) => news_sources[key] || []);
 
   return (
-    <Box>
-      <Typography variant="h6">What are you interested in?</Typography>
-      <Box>
+    <Box sx={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center" }}>
+        Customize Your News Feed
+      </Typography>
+      <Box sx={{ margin: "40px 0" }}>
         {Object.keys(interests).map((interest) => (
-          <Box key={interest} sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <Box
+            key={interest}
+            sx={{ display: "flex", alignItems: "center", marginBottom: "20px" }}
+          >
             <FormControlLabel
               control={
                 <Checkbox
                   checked={interests[interest].selected}
                   onChange={handleInterestChange}
                   name={interest}
+                  icon={<StarBorderIcon />}
+                  checkedIcon={<StarIcon />}
                 />
               }
               label={interest.charAt(0).toUpperCase() + interest.slice(1)}
+              sx={{ marginRight: "20px" }}
             />
             <Slider
               value={interests[interest].level}
-              onChange={(event, value) => handleLevelChange(interest, event, value)}
+              onChange={(event, value) =>
+                handleLevelChange(interest, event, value)
+              }
               disabled={!interests[interest].selected}
               step={1}
               marks
               min={1}
               max={10}
               valueLabelDisplay="auto"
-              sx={{ marginLeft: '20px', width: '200px' }}
+              sx={{ flexGrow: 1 }}
             />
           </Box>
         ))}

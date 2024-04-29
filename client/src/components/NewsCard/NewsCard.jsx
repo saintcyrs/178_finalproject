@@ -31,7 +31,12 @@ export default function NewsCard({
     console.log(vote);
   };
   return (
-    <Card raised elevation={3} style={{ margin: 8 }}>
+    <Card raised
+    elevation={3}
+    style={{
+      margin: 8,
+      backgroundColor: vote === false ? "#808080" : "white",  // Conditional background color
+    }} >
       <CardActionArea
         href={sourceUrl}
         target="_blank"
@@ -52,9 +57,8 @@ export default function NewsCard({
           ) : (
             <Typography color="textSecondary">No summary available.</Typography>
           )}
-          <br></br>
+          <br />
           <Typography variant="body2" color="black">
-            {" "}
             {source || "Read More"}{" "}
           </Typography>
         </CardContent>
