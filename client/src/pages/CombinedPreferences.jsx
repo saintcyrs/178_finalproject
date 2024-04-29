@@ -36,8 +36,8 @@ export default function InterestAndPreferences() {
   const [interests, setInterests] = useState({
     entertainment: { selected: true, level: 5 },
     politics: { selected: true, level: 5 },
-    world: { selected: true, level: 5 },
-    sports: { selected: true, level: 5 },
+    // world: { selected: true, level: 5 },
+    // sports: { selected: true, level: 5 },
   });
   const allSourceNames = extractSourceNames(news_sources);
   const [selectedSource, setSelectedSource] = useState(allSourceNames);

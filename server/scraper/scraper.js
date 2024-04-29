@@ -189,11 +189,6 @@ const scrapeNBCNewsHeadline = async (url) => {
     // Extract the image URL from the <picture> element
     const imageUrl = section.find("picture img").attr("src"); // Adjust this selector based on your needs
 
-    // Output the extracted information
-    console.log("Headline Text:", headline);
-    console.log("Headline URL:", link);
-    console.log("Image URL:", imageUrl);
-
     return {
       source,
       imageUrl,
