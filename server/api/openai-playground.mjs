@@ -27,7 +27,6 @@ export async function extractTopStories(rooturl) {
       model: "gpt-3.5-turbo",
       response_format: { type: "json_object" },
     });
-    console.log("OpenAI API response:", completion.choices[0].message.content);
     return completion.choices[0].message.content;
   } catch (error) {
     console.error("Error in OpenAI API call:", error);

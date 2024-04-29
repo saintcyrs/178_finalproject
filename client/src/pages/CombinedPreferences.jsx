@@ -85,7 +85,12 @@ export default function InterestAndPreferences() {
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ textAlign: "center", color: "#1976d2", fontWeight: "700" }}
+        sx={{
+          textAlign: "center",
+          color: "#1976d2",
+          fontWeight: "700",
+          marginTop: "20px",
+        }}
       >
         Customize Your News Feed
       </Typography>
@@ -99,7 +104,8 @@ export default function InterestAndPreferences() {
           fontWeight: "700",
         }}
       >
-        Gauge your interest: 1 = Not Interested, 10 = Very Interested
+        Gauge your interest using the slider:<br></br> 1 = Not Interested, 10 =
+        Very Interested
       </Typography>
       <Box sx={{ margin: "40px 0" }}>
         {Object.keys(interests).map((interest) => (
@@ -159,10 +165,13 @@ export default function InterestAndPreferences() {
         up2date takes top headlines from sources you select and curates them to
         form a consolidated newsletter. <br></br> it uses the OpenAI API to
         generate 1-2 sentence summaries of those articles. <br></br>
-        <br></br> though we provide the summaries for convenience, due to
-        algorithmic biases present in large language models, we strongly
-        encourage not relying on these summaries for your information and
-        reading the articles in their entirety.
+        <br></br>{" "}
+        <strong>
+          though we provide the summaries for convenience, due to algorithmic
+          biases present in large language models, we strongly encourage not
+          relying on these summaries for your information and reading the
+          articles in their entirety.
+        </strong>
       </Typography>
       <Box
         sx={{

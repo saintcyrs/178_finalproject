@@ -91,8 +91,6 @@ const scrapeHollywoodReporterHeadline = async (url) => {
     const link = headlineElement.attr("href");
     // Selector for the image based on the provided div and class attributes
     const imageUrl = $(".lrv-a-crop-16x9 img.c-lazy-image__img").attr("src");
-    // console.log("Found image element:", imageElement.length > 0); // Should print true if the element is found
-    // const imageUrl = imageElement.attr("src");
 
     // Return the extracted data
     return {

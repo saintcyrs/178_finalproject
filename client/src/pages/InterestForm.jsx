@@ -26,7 +26,6 @@ export default function InterestForm() {
     const interestKeys = Object.keys(interests).filter(
       (interest) => interests[interest]
     );
-    console.log("Interests selected:", interestKeys);
     localStorage.setItem("selectedInterests", JSON.stringify(interestKeys));
     //right now navigate to preferences page
     navigate("/preferences");

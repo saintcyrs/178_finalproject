@@ -5,7 +5,6 @@ import axios from "axios";
 
 function NewsContainer({ selectedSources }) {
   const [articles, setArticles] = useState([]);
-  console.log("Selected sources:", selectedSources);
 
   useEffect(() => {
     // Map your sources to your scraping endpoints
@@ -48,8 +47,6 @@ function NewsContainer({ selectedSources }) {
   if (articles.length === 0) {
     return "No articles found for this source.";
   }
-
-  console.log("Articles:", articles);
 
   return (
     <Box

@@ -9,7 +9,6 @@ import {
   CssBaseline,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import newspaperImage from "../img/newspaper4.jpg";
 
 const theme = createTheme({
   palette: {
@@ -39,7 +38,6 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("userInfo", userInfo);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     navigate("/interests");
   };
@@ -77,11 +75,18 @@ export default function SignUpForm() {
                 marginBottom: "20px",
                 fontFamily: "Helvetica",
                 color: "#1976d2",
+                textAlign: "center",
               }}
             >
               up2date
             </Typography>
-            <Typography style={{ fontSize: "20px", fontStyle: "italic" }}>
+            <Typography
+              style={{
+                fontSize: "20px",
+                fontStyle: "italic",
+                textAlign: "center",
+              }}
+            >
               Stay up2date with a customizable news feed.
             </Typography>
             <form onSubmit={handleSubmit} style={{ width: "100%" }}>

@@ -70,20 +70,22 @@ function NewsletterPage() {
     setSelectedSources(storedSources.length ? storedSources : []);
   }, []);
 
+  const isMultiple = selectedSources.length > 1;
+
   const settings = {
     dots: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    infinite: true,
+    infinite: isMultiple,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: isMultiple ? 3 : 1, // Show only one slide if there's one source
+    slidesToScroll: isMultiple ? 3 : 1,
     responsive: [
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: isMultiple ? 2 : 1,
+          slidesToScroll: isMultiple ? 2 : 1,
         },
       },
       {
@@ -126,43 +128,5 @@ function NewsletterPage() {
     </>
   );
 }
-
-/*
-
-  return (
-    <>
-      <MyAppBar />
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <Typography
-          variant="h3"
-          gutterBottom
-          sx={{ fontWeight: "bold", color: "primary.main" }}
-        >
-          Hello, {firstName}! Welcome to your personalized news dashboard.
-        </Typography>
-        {selectedSources.length > 0 ? (
-          <Grid container spacing={3}>
-            {selectedSources.map((source, index) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                key={index}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <NewsContainer selectedSources={[source]} />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="h5" sx={{ color: "error.main", mt: 2 }}>
-            No sources selected. Please select your news sources in preferences.
-          </Typography>
-        )}
-      </Container>
-    </>
-  );
-} */
 
 export default NewsletterPage;
