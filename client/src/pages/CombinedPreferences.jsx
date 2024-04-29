@@ -68,12 +68,18 @@ export default function InterestAndPreferences() {
   };
 
   const handlePreferencesSubmit = () => {
-    localStorage.setItem(
-      "selectedInterests",
-      JSON.stringify(Object.keys(interests).filter((key) => interests[key]))
-    );
-    localStorage.setItem("selectedSources", JSON.stringify(selectedSource));
-    navigate("/newsletter"); // Navigate to the newsletter page
+    const selectedInterestsAndLevels = Object.entries(interests)
+    .filter(([key, value]) => value.selected)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value.level;
+      return acc;
+    }, {});
+
+  localStorage.setItem('selectedInterests', JSON.stringify(Object.keys(selectedInterestsAndLevels)));
+  localStorage.setItem('interestLevels', JSON.stringify(selectedInterestsAndLevels)); // Save the levels
+  localStorage.setItem('selectedSources', JSON.stringify(selectedSource.map(source => source.name)));
+
+  navigate('/newsletter');
   };
 
   const sources = Object.keys(interests)
@@ -120,65 +126,41 @@ export default function InterestAndPreferences() {
           </Box>
         ))}
       </Box>
-      <Typography variant="h6" gutterBottom sx={{ textAlign: "center" }}>
-        Select Your News Sources
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
+      <Box className="news-sources">
         {sources.map((source) => (
-          <Paper
+          <Box
             key={source.name}
-            elevation={selectedSource.includes(source.name) ? 12 : 2}
+            className="news-source"
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-between",
-              p: "20px",
-              "&:hover": {
-                boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
-                transform: "scale(1.05)",
-              },
-              width: "150px",
-              minHeight: "100px",
-              position: "relative",
-              overflow: "hidden",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                border: selectedSource.includes(source.name) ? '2px solid green' : '1px solid grey',
+                padding: '10px',
+                margin: '10px',
+                width: '150px',
+                height: '75px',
+                position: 'relative',
             }}
-          >
-            <img
-              src={source.logo}
-              alt={`${source.name} Logo`}
-              style={{ width: "100%", height: "auto" }}
-            />
+            >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <img src={source.logo} alt={`${source.name} Logo`} style={{ width: '50px', height: 'auto' }} />
+                <Typography sx={{ marginLeft: '10px', flexGrow: 1 }}>{source.name}</Typography>
+            </Box>
             <Checkbox
-              checked={selectedSource.includes(source.name)}
-              onChange={(event) => handleSourceChange(event, source.name)}
-              sx={{
-                position: "absolute",
-                top: "5px",
-                right: "5px",
-                color: "green",
-              }}
+                checked={selectedSource.includes(source.name)}
+                onChange={(event) => handleSourceChange(event, source.name)}
+                sx={{ position: 'absolute', bottom: '5px', right: '5px' }} // Positioning the checkbox
             />
-          </Paper>
+            </Box>
         ))}
       </Box>
       <Button
         variant="contained"
         color="primary"
         onClick={handlePreferencesSubmit}
-        sx={{
-          marginTop: "30px",
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
+        sx={{ marginTop: '30px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
       >
         Continue
       </Button>
