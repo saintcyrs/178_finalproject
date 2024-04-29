@@ -2,18 +2,31 @@ import React, { useEffect, useState } from "react";
 import MyAppBar from "../components/AppBar/MyAppBar";
 import NewsContainer from "../components/NewsContainer/NewsContainer";
 import { Grid, Container, Typography } from "@mui/material";
+import news_sources from './NewsSources.js'; // make sure this path is correct
 
 function NewsletterPage() {
-  const [selectedSources, setSelectedSources] = useState([]);
+  const [displayedArticles, setDisplayedArticles] = useState([]);
   const storedUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const firstName = storedUserInfo.firstName || "Guest";
 
   useEffect(() => {
-    const storedSources = JSON.parse(
-      localStorage.getItem("selectedSources") || "[]"
-    );
-    setSelectedSources(storedSources.length ? storedSources : []);
-  }, []);
+    const storedInterestLevels = JSON.parse(localStorage.getItem("interestLevels") || "{}");
+    const storedSelectedInterests = JSON.parse(localStorage.getItem("selectedInterests") || "[]");
+  
+    let articlesToDisplay = [];
+  
+    storedSelectedInterests.forEach(interest => {
+      const sourcesArray = news_sources[interest];
+      if (sourcesArray) { // Check if the sourcesArray is not undefined
+        const level = storedInterestLevels[interest];
+        const numArticlesToShow = level < 5 ? 1 : level === 5 ? 2 : 3;
+        const sourcesToShow = sourcesArray.slice(0, numArticlesToShow);
+        articlesToDisplay = [...articlesToDisplay, ...sourcesToShow];
+      }
+    });
+  
+    setDisplayedArticles(articlesToDisplay);
+  }, []);  
 
   return (
     <>
@@ -26,18 +39,18 @@ function NewsletterPage() {
         >
           Hello, {firstName}! Welcome to your personalized news dashboard.
         </Typography>
-        {selectedSources.length > 0 ? (
+        {displayedArticles.length > 0 ? (
           <Grid container spacing={3}>
-            {selectedSources.map((source, index) => (
+            {displayedArticles.map((source, index) => (
               <Grid
                 item
                 xs={12}
                 sm={6}
                 md={4}
-                key={index}
+                key={`${source.name}-${index}`}
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <NewsContainer selectedSources={[source]} />
+                <NewsContainer source={source} />
               </Grid>
             ))}
           </Grid>
