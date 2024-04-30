@@ -70,8 +70,7 @@ export default function InterestAndPreferences() {
   const handlePreferencesSubmit = () => {
     localStorage.setItem(
       "selectedInterests",
-      JSON.stringify(Object.keys(interests).filter((key) => interests[key]))
-    );
+      JSON.stringify(interests));
     localStorage.setItem("selectedSources", JSON.stringify(selectedSource));
     navigate("/newsletter"); // Navigate to the newsletter page
   };

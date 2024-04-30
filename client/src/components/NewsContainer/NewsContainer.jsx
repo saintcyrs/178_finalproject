@@ -3,7 +3,7 @@ import NewsCard from "../NewsCard/NewsCard";
 import { Box } from "@mui/material";
 import axios from "axios";
 
-function NewsContainer({ selectedSources }) {
+function NewsContainer({ sortedSources }) {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function NewsContainer({ selectedSources }) {
 
     // Filter the sources to only those selected by the user
     const filteredSources = Object.entries(sourceEndpoints)
-      .filter(([sourceName]) => selectedSources.includes(sourceName))
+      .filter(([sourceName]) => sortedSources.includes(sourceName))
       .map(([, endpoint]) => endpoint);
     if (filteredSources.length > 0) {
       Promise.all(filteredSources.map((url) => axios.get(url)))
@@ -40,7 +40,7 @@ function NewsContainer({ selectedSources }) {
       // If no sources are selected, clear the articles
       setArticles([]);
     }
-  }, [selectedSources]);
+  }, [sortedSources]);
 
   if (articles.length === 0) {
     return "No articles found for this source.";

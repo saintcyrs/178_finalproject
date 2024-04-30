@@ -60,24 +60,64 @@ const PrevArrow = (props) => {
 };
 
 function NewsletterPage() {
-  const [selectedSources, setSelectedSources] = useState([]);
+  const [sortedSources, setSortedSources] = useState([]);
   const storedUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const firstName = storedUserInfo.firstName || "Guest";
 
   useEffect(() => {
-    const storedSources = JSON.parse(
-      localStorage.getItem("selectedSources") || "[]"
-    );
-    setSelectedSources(storedSources.length ? storedSources : []);
+    const storedInterests = JSON.parse(localStorage.getItem("selectedInterests") || "{}");
+    const storedSources = JSON.parse(localStorage.getItem("selectedSources") || "[]");
+    console.log('stored sources', storedSources);
+
+    // Define the category of each source
+    const sourceCategories = {
+      'Variety': 'entertainment',
+      'Deadline': 'entertainment',
+      'The Hollywood Reporter': 'entertainment',
+      'Fox News': 'politics',
+      'AP News': 'politics',
+      'NBC News': 'politics',
+    };
+
+    // Function to sort and alternate sources based on interest levels
+    function sortSourcesByInterest(sources, interests) {
+      // Check interest levels
+      const entertainmentLevel = interests.entertainment?.level ?? 0;
+      const politicsLevel = interests.politics?.level ?? 0;
+
+      let entertainmentSources = sources.filter(source => sourceCategories[source] === 'entertainment');
+      let politicsSources = sources.filter(source => sourceCategories[source] === 'politics');
+
+      if (entertainmentLevel > politicsLevel) {
+        return [...entertainmentSources, ...politicsSources];
+      } else if (entertainmentLevel < politicsLevel) {
+        return [...politicsSources, ...entertainmentSources];
+      } else {
+        // Alternate if levels are equal
+        const maxLength = Math.max(entertainmentSources.length, politicsSources.length);
+        const alternatedSources = [];
+        for (let i = 0; i < maxLength; i++) {
+          if (entertainmentSources[i]) {
+            alternatedSources.push(entertainmentSources[i]);
+          }
+          if (politicsSources[i]) {
+            alternatedSources.push(politicsSources[i]);
+          }
+        }
+        return alternatedSources;
+      }
+    }
+
+    setSortedSources(sortSourcesByInterest(storedSources, storedInterests));
   }, []);
 
-  const slidesToShow = Math.min(selectedSources.length, 3);
+  const slidesToShow = Math.min(sortedSources.length, 3);
 
   const settings = {
     dots: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    infinite: selectedSources.length > 1,
+    infinite: sortedSources.length > 1,
     speed: 500,
     slidesToShow: slidesToShow, // Show only one slide if there's one source
     slidesToScroll: 1,
@@ -85,7 +125,7 @@ function NewsletterPage() {
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: Math.min(2, selectedSources.length),
+          slidesToShow: Math.min(2, sortedSources.length),
           slidesToScroll: 1,
         },
       },
@@ -109,7 +149,7 @@ function NewsletterPage() {
     "Fox News": "Tends to be conservatively-aligned",
   };
 
-  const legendItems = selectedSources
+  const legendItems = sortedSources
     .filter((source) => sourceAlignments.hasOwnProperty(source))
     .map((source) => ({
       source,
@@ -134,13 +174,13 @@ function NewsletterPage() {
           Hello, {firstName}! Welcome to your personalized news dashboard.
         </Typography>
 
-        {selectedSources.length > 0 ? (
+        {sortedSources.length > 0 ? (
           <>
             <GlobalStyle>
               <Slider {...settings}>
-                {selectedSources.map((source, index) => (
+                {sortedSources.map((source, index) => (
                   <div key={index}>
-                    <NewsContainer selectedSources={[source]} />
+                    <NewsContainer sortedSources={[source]} />
                   </div>
                 ))}
               </Slider>
