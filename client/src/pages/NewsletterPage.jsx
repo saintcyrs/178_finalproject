@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { fontSize, styled } from "@mui/system";
-import { Paper, Chip, Stack } from '@mui/material';
+import { Paper, Chip, Stack } from "@mui/material";
 
 // This creates a global style that overrides the slick slider arrows
 const GlobalStyle = styled("div")(({ theme }) => ({
@@ -108,27 +108,57 @@ function NewsletterPage() {
     "AP News": "Tends to be neutrally-aligned",
     "Fox News": "Tends to be conservatively-aligned",
   };
-  
+
   const legendItems = selectedSources
-  .filter(source => sourceAlignments.hasOwnProperty(source))
-  .map(source => ({
-    source,
-    alignment: sourceAlignments[source]
-  }));
+    .filter((source) => sourceAlignments.hasOwnProperty(source))
+    .map((source) => ({
+      source,
+      alignment: sourceAlignments[source],
+    }));
 
   return (
     <>
       <MyAppBar />
-      <Container maxWidth="lg" sx={{ mt: 4, position: 'relative', pt: 10 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, position: "relative", pt: 10 }}>
         {/* Add padding-top to the container to push content down so the legend does not overlap */}
         <Typography
           variant="h3"
           gutterBottom
-          sx={{ fontWeight: "bold", color: "primary.main", position: 'relative', zIndex: 2 }}
+          sx={{
+            fontWeight: "bold",
+            color: "primary.main",
+            position: "relative",
+            zIndex: 2,
+          }}
         >
           Hello, {firstName}! Welcome to your personalized news dashboard.
         </Typography>
-        <Paper elevation={3} sx={{ position: 'absolute', top: 16, right: 1, padding: '2px', zIndex: 5 }}>
+
+        {selectedSources.length > 0 ? (
+          <>
+            <GlobalStyle>
+              <Slider {...settings}>
+                {selectedSources.map((source, index) => (
+                  <div key={index}>
+                    <NewsContainer selectedSources={[source]} />
+                  </div>
+                ))}
+              </Slider>
+            </GlobalStyle>
+          </>
+        ) : (
+          <Typography variant="h5" sx={{ color: "error.main", mt: 2 }}>
+            No sources selected. Please select your news sources in preferences.
+          </Typography>
+        )}
+        <Paper
+          elevation={3}
+          sx={{
+            position: "relative",
+            padding: "2px",
+            zIndex: 5,
+          }}
+        >
           <Stack direction="column" spacing={0.5}>
             <Typography variant="caption" gutterBottom>
               News Alignment (according to AllSides):
@@ -139,35 +169,22 @@ function NewsletterPage() {
                 label={`${source}: ${alignment}`}
                 size="small" // Smaller chip size
                 bgcolor={
-                  alignment.includes('liberally') ? '#1565c0' : // Blue
-                  alignment.includes('conservatively') ? '#d32f2f' : // Red
-                  '#ffffff' // White
+                  alignment.includes("liberally")
+                    ? "#1565c0" // Blue
+                    : alignment.includes("conservatively")
+                    ? "#d32f2f" // Red
+                    : "#ffffff" // White
                 }
                 sx={{
-                  border: alignment.includes('neutrally') ? '1px solid black' : 'none',
-                  fontSize: '0.75rem' // Smaller font size
+                  border: alignment.includes("neutrally")
+                    ? "1px solid black"
+                    : "none",
+                  fontSize: "0.75rem", // Smaller font size
                 }}
               />
             ))}
           </Stack>
         </Paper>
-        {selectedSources.length > 0 ? (
-          <>
-          <GlobalStyle>
-            <Slider {...settings}>
-              {selectedSources.map((source, index) => (
-                <div key={index}>
-                  <NewsContainer selectedSources={[source]} />
-                </div>
-              ))}
-            </Slider>
-          </GlobalStyle>
-          </>
-        ) : (
-          <Typography variant="h5" sx={{ color: "error.main", mt: 2 }}>
-            No sources selected. Please select your news sources in preferences.
-          </Typography>
-        )}
       </Container>
     </>
   );
