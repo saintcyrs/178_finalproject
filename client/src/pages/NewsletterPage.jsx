@@ -13,7 +13,7 @@ import { Paper, Chip, Stack } from '@mui/material';
 // This creates a global style that overrides the slick slider arrows
 const GlobalStyle = styled("div")(({ theme }) => ({
   [`& .slick-prev, & .slick-next`]: {
-    backgroundColor: "white", // Your desired background color
+    backgroundColor: "white", 
     color: "gray", // Arrow icon color
     zIndex: 1,
     fontSize: "40px",
@@ -36,8 +36,8 @@ const NextArrow = (props) => {
       className={className}
       style={{
         ...style,
-        display: "block", // Ensure the display isn't none
-        color: "black", // Choose color for the arrow
+        display: "block", 
+        color: "black",
       }}
       onClick={onClick}
     />
@@ -51,8 +51,8 @@ const PrevArrow = (props) => {
       className={className}
       style={{
         ...style,
-        display: "block", // Ensure the display isn't none
-        color: "black", // Choose color for the arrow
+        display: "block", 
+        color: "black", 
       }}
       onClick={onClick}
     />
@@ -120,7 +120,7 @@ function NewsletterPage() {
     <>
       <MyAppBar />
       <Container maxWidth="lg" sx={{ mt: 4, position: 'relative', pt: 10 }}>
-        {/* Add padding-top to the container to push content down so the legend does not overlap */}
+        {/* Added padding-top to the container to push content down so the legend does not overlap */}
         <Typography
           variant="h3"
           gutterBottom

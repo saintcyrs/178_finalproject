@@ -7,7 +7,6 @@ function NewsContainer({ selectedSources }) {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    // Map your sources to your scraping endpoints
     const sourceEndpoints = {
       "The Hollywood Reporter": "http://localhost:3001/scrape-hollywood",
       Deadline: "http://localhost:3001/scrape-deadline",
@@ -25,7 +24,6 @@ function NewsContainer({ selectedSources }) {
     if (filteredSources.length > 0) {
       Promise.all(filteredSources.map((url) => axios.get(url)))
         .then((responses) => {
-          // You may need to adjust how you combine and set the articles based on the structure of your response
           const newArticles = responses.flatMap((response) => {
             const articleData = response.data;
             if (typeof articleData.summary === "string") {

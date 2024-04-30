@@ -136,7 +136,7 @@ const scrapeFoxNewsArticle = async (url) => {
       source,
       headline,
       link: absoluteArticleUrl,
-      imageUrl, // This now uses the correct selector for the image
+      imageUrl,
     };
   } catch (error) {
     console.error("Failed to scrape Fox News:", error);
@@ -185,7 +185,7 @@ const scrapeNBCNewsHeadline = async (url) => {
     const link = headlineLinkElement.attr("href");
 
     // Extract the image URL from the <picture> element
-    const imageUrl = section.find("picture img").attr("src"); // Adjust this selector based on your needs
+    const imageUrl = section.find("picture img").attr("src"); 
 
     return {
       source,

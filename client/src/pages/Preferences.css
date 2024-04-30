@@ -48,7 +48,7 @@
   .news-source-logo {
     width: 100%;
     max-height: 120px; /* Set a fixed max-height */
-    object-fit: contain; /* Keeps the aspect ratio, can also use 'cover' */
+    object-fit: contain; /* Keeps the aspect ratio*/
   }
   
   .news-source img.news-source-logo {
