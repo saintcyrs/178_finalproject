@@ -21,6 +21,9 @@ const theme = createTheme({
   },
 });
 
+/*The signUpForm function allows for the user to input their information and navigates to the next page 
+actions related to the user concept */
+
 export default function SignUpForm() {
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -88,6 +91,7 @@ export default function SignUpForm() {
               }}
             >
               Stay up2date with a customizable news feed.
+            {/*The code below shows the UI instantiation of the user concept which takes the name, email, and password inputs. */}
             </Typography>
             <form onSubmit={handleSubmit} style={{ width: "100%" }}>
               {error && <Typography color="error">{error}</Typography>}

@@ -14,12 +14,12 @@ import { Paper, Chip, Stack } from "@mui/material";
 const GlobalStyle = styled("div")(({ theme }) => ({
   [`& .slick-prev, & .slick-next`]: {
     backgroundColor: "white", 
-    color: "gray", // Arrow icon color
+    color: "gray", 
     zIndex: 1,
     fontSize: "40px",
   },
   [`& .slick-prev:before, & .slick-next:before`]: {
-    color: "white", // Arrow icon color, ensure it's visible on your background
+    color: "white", 
   },
   [`& .slick-prev`]: {
     left: "-40px",
@@ -28,6 +28,8 @@ const GlobalStyle = styled("div")(({ theme }) => ({
     right: "-40px",
   },
 }));
+
+//The arrow definitions are for the carousel component of the article concept 
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -58,6 +60,9 @@ const PrevArrow = (props) => {
     />
   );
 };
+
+/*This retrieves the interests and selected sources from the Preferences concept and uses it 
+to change the order of articles based on what the user is more interested in. */
 
 function NewsletterPage() {
   const [sortedSources, setSortedSources] = useState([]);
@@ -111,6 +116,7 @@ function NewsletterPage() {
     setSortedSources(sortSourcesByInterest(storedSources, storedInterests));
   }, []);
 
+  //The max slides or news cards a user can see at once is 3, which is the hidden vs visible states of the articles.
   const slidesToShow = Math.min(sortedSources.length, 3);
 
   const settings = {
@@ -156,6 +162,8 @@ function NewsletterPage() {
       alignment: sourceAlignments[source],
     }));
 
+  /*This is the UI rendering of the Newsletter Dashboard. Please check the NewsCard and NewsContainer pages for 
+  more information on the UI design behind this page -- UI behind the article concept. */
   return (
     <>
       <MyAppBar />

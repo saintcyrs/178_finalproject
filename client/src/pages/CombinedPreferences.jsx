@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
-import "./Preferences.css"; // Make sure this CSS file contains all the styles needed for both interests and preferences
+import "./Preferences.css"; 
 
+//This is the structure of the news_sources object which includes the name and logo used for the source preferences 
 const news_sources = {
   politics: [
     { name: "AP News", logo: require("../img/ap.png") },
@@ -32,6 +33,7 @@ const extractSourceNames = (sourcesObject) => {
     .map((source) => source.name);
 };
 
+//This is the default state of the Preferences concept --> interests set to level 5 and all sources selected
 export default function InterestAndPreferences() {
   const [interests, setInterests] = useState({
     entertainment: { selected: true, level: 5 },
@@ -67,6 +69,9 @@ export default function InterestAndPreferences() {
     });
   };
 
+  /*This helps transfer preference information from the Preferences page to the Newsletter Page 
+  (interests and selected sources -- the personalized states of the Preference Concept) */
+
   const handlePreferencesSubmit = () => {
     localStorage.setItem(
       "selectedInterests",
@@ -78,6 +83,8 @@ export default function InterestAndPreferences() {
   const sources = Object.keys(interests)
     .filter((key) => interests[key])
     .flatMap((key) => news_sources[key] || []);
+
+  //The code below is the UI instantiation of the Preferences concept. 
 
   return (
     <Box sx={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
